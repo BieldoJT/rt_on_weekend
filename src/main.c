@@ -51,7 +51,7 @@ int main()
 	world[world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5, metal_create(vec3(0., 0.2, 0.5), 0.03)); // meio
 	world[world_size++] = sphere_create(vec3(-1.0, 0.0, -1.0), 0.5, diffuse_light_create(vec3(0, 0, 255)));
 	//world[world_size++] = sphere_create(vec3(-1.0, 0.0, -1.0), 0.5, dielectric_create(1.0 / 1.5)); // vidro
-	world[world_size++] = sphere_create(vec3(1.0, 0.0, -1.0), 0.5, diffuse_light_create(vec3(4, 4, 4)));
+	world[world_size++] = sphere_create(vec3(1.0, 0.0, -1.0), 0.5, diffuse_light_create(vec3(0.8, 0.8, 0.8)));
 
 
 	mlx = malloc(sizeof(t_mlx));
