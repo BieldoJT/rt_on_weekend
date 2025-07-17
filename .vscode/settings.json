@@ -6,7 +6,9 @@
 		"rt.h": "c",
 		"fcntl.h": "c",
 		"vec3.h": "c",
-		"ray.h": "c"
+		"ray.h": "c",
+		"material.h": "c",
+		"stdlib.h": "c"
 	},
 	"conventionalCommits.scopes": [
 		"norminette"

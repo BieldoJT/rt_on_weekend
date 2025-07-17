@@ -15,15 +15,15 @@ SRCS = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/mlx_usage.c \
 	$(SRC_DIR)/vec3.c \
+	$(SRC_DIR)/interval.c \
+	$(SRC_DIR)/render.c \
 	$(SRC_DIR)/color.c \
 	$(SRC_DIR)/camera.c \
 	$(SRC_DIR)/ray.c \
 	$(SRC_DIR)/sphere.c \
 	$(SRC_DIR)/hittable.c \
-	$(SRC_DIR)/interval.c \
 	$(SRC_DIR)/material.c \
-	$(SRC_DIR)/init_variables.c \
-	$(SRC_DIR)/render.c
+	$(SRC_DIR)/init_variables.c
 
 OBJS = $(SRCS:.c=.o)
 

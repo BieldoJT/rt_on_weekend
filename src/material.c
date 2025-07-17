@@ -1,6 +1,5 @@
-#include "material.h"
-#include "ray.h"        /* t_ray, ray() */
-#include "hittable.h"   /* t_hit_record, hit_world() */
+#include "rt.h"
+#include "ray.h"        /* t_ray, ray() *//* t_hit_record, hit_world() */
 #include "vec3.h"      /* vec3_reflect(), vec3_dot(), vec3_unit_vector() */
 #include <stdlib.h>
 #include <math.h>

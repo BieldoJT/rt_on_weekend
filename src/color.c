@@ -6,12 +6,11 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:13:40 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/16 21:49:40 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:12:18 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-#include "color.h"
 
 
 t_vec3	ray_color(t_ray r,t_rt *rt, int depth)

@@ -6,11 +6,11 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:35:39 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/16 21:53:58 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:14:59 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hittable.h"
+#include "rt.h"
 
 
 int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt)

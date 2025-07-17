@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/16 21:13:14 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/17 12:14:08 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ double	linear_to_gamma(double x)
 int	anti_aliasing_get_color(t_rt *rt, int i, int j)
 {
 	int		s;
-	color	pixel_color;
+	t_vec3	pixel_color;
 	t_ray	r;
 	t_vec3	irgb;
 

@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/16 21:42:27 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/17 14:35:39 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	init_rt(t_rt *rt)
 	init_mlx(rt);
 	//inicializar a camera
 	rt->camera = init_camera(aspect_ratio, rt->image_width, rt->image_height);
-	rt->camera->sample_per_pixel = 100; // Inicializa com n amostras por pixel
+	rt->camera->sample_per_pixel = 50; // Inicializa com n amostras por pixel
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
 	rt->camera->max_depth = 50;
 	create_world(rt);
@@ -58,9 +58,9 @@ static void create_world(t_rt *rt)
 	if (!rt->world)
 		return ;
 	rt->world[rt->world_size++] = sphere_create(vec3(0.0, -100.5, -1.0), 100.0 , lambertian_create(vec3( 0.8,  0.8,  0.0)));
-	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5, metal_create(vec3(0., 0.2, 0.5), 0.03)); // meio
-	rt->world[rt->world_size++] = sphere_create(vec3(-1.0, 0.0, -1.0), 0.5, diffuse_light_create(vec3(0, 0, 255)));
+	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5, metal_create(vec3(0., 0.2, 0.5),0.5)); // meio
+	rt->world[rt->world_size++] = sphere_create(vec3(-1.0, 0.0, -1.0), 0.5, dielectric_create(1.0 / 1.5));
 	//world[world_size++] = sphere_create(vec3(-1.0, 0.0, -1.0), 0.5, dielectric_create(1.0 / 1.5)); // vidro
-	rt->world[rt->world_size++] = sphere_create(vec3(1.0, 0.0, -1.0), 0.5, diffuse_light_create(vec3(4, 4, 4)));
+	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 2.0, 2.0), 0.5, diffuse_light_create(vec3(50, 50, 50))); //4 4 4
 
 }
