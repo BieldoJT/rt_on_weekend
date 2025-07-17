@@ -52,15 +52,31 @@ typedef struct s_camera
 	color background_color; // cor de fundo da cena
 }	t_camera;
 
+typedef struct s_rt
+{
+	t_mlx *mlx;
+	t_camera *camera;
+	int image_width;
+	int image_height;
+	int world_size;
+	t_hittable **world; // array de objetos
+	t_interval t_range; // intervalo de t para o ray tracing
+	t_interval intensity; // intervalo de intensidade para clamping
+}	t_rt;
+
+
+
 typedef enum e_hittable_type
 {
 	SPHERE // Esfera
 	// + outras futuras primitivas
 }	t_hittable_type;
 
-
+// Funções de inicialização
+void	init_rt(t_rt *rt);
+void	render_rt(t_rt *rt);
 //mlx
-void	init_mlx(t_mlx *mlx, int width, int height);
+void	init_mlx(t_rt *rt);
 int		destroy(t_mlx *mlx);
 int	destroy_in_esc(int keycode, t_mlx *mlx);
 void	my_mlx_pixel_put(t_mlx *mlx, int x, int y, int color);
@@ -79,5 +95,9 @@ double	hit_sphere(t_vec3 center, double radius, t_ray r);
 double degree_to_radian(double degree);
 double  random_double(void);
 double  random_double_range(double min, double max);
+
+int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt);
+
+void	render_rt(t_rt *rt);
 
 #endif

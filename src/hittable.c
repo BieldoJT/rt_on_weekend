@@ -1,17 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   hittable.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/16 21:35:39 by gda-conc          #+#    #+#             */
+/*   Updated: 2025/07/16 21:53:58 by gda-conc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "hittable.h"
 
-int hit_world(t_hittable **world, int world_size, t_ray r,t_interval t_range, t_hit_record *rec)
+
+int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt)
 {
 	t_hit_record	tmp;
-	int	hit_any = 0;
-	int i;
+	int				hit_any;
+	int				i;
+	t_interval		range;
+	int				v;
+
+	hit_any = 0;
 	i = 0;
-	while (i < world_size)
+	range = rt->t_range;
+	while (i < rt->world_size)
 	{
-		if (world[i]->hit(world[i]->obj, r, t_range.min, t_range.max, &tmp))
+		v = rt->world[i]->hit(rt->world[i]->obj, r, range.min, range.max, &tmp);
+		if (v)
 		{
 			hit_any = 1;
-			t_range.max = tmp.t;
+			range.max = tmp.t;
 			*rec = tmp;
 		}
 		i++;
@@ -19,7 +38,7 @@ int hit_world(t_hittable **world, int world_size, t_ray r,t_interval t_range, t_
 	return (hit_any);
 }
 
-void    set_face_normal(t_hit_record *rec, t_ray r, t_vec3 outward_normal)
+void	set_face_normal(t_hit_record *rec, t_ray r, t_vec3 outward_normal)
 {
 	if (vec3_dot(r.dir, outward_normal) < 0.0)
 	{

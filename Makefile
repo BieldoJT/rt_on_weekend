@@ -22,6 +22,8 @@ SRCS = \
 	$(SRC_DIR)/hittable.c \
 	$(SRC_DIR)/interval.c \
 	$(SRC_DIR)/material.c \
+	$(SRC_DIR)/init_variables.c \
+	$(SRC_DIR)/render.c
 
 OBJS = $(SRCS:.c=.o)
 

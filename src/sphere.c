@@ -13,7 +13,8 @@ void get_sphere_uv(t_vec3 *p, double *u, double *v)
 	*v = theta  / PI;
 }
 
-
+// fazer o t_max e o t_min serem passados como parâmetros
+// dentro do interval
 int sphere_hit(
 	void *obj,
 	t_ray r,

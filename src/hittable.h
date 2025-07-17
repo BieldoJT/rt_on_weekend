@@ -1,6 +1,7 @@
 #ifndef HITTABLE_H
 # define HITTABLE_H
 # include "vec3.h"
+# include "rt.h"
 # include "ray.h"
 # include "interval.h"
 # include "material.h"
@@ -31,8 +32,8 @@ typedef struct s_hittable
 		t_hit_record *rec);
 } t_hittable;
 
-int hit_world(t_hittable **world, int world_size, t_ray r,t_interval t_range, t_hit_record *rec);
-void set_face_normal(t_hit_record *rec, t_ray r, t_vec3 outward_normal);
+int		hit_world(t_ray r, t_hit_record *rec, t_rt *rt);
+void	set_face_normal(t_hit_record *rec, t_ray r, t_vec3 outward_normal);
 
 
 #endif

@@ -4,6 +4,11 @@
 		"color.h": "c",
 		"hittable.h": "c",
 		"rt.h": "c",
-		"fcntl.h": "c"
-	}
+		"fcntl.h": "c",
+		"vec3.h": "c",
+		"ray.h": "c"
+	},
+	"conventionalCommits.scopes": [
+		"norminette"
+	]
 }
