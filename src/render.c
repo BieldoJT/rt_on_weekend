@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/16 18:07:01 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:13:14 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	anti_aliasing_get_color(t_rt *rt, int i, int j)
 	while (s < rt->camera->sample_per_pixel)
 	{
 		r = get_ray(rt->camera, i, j);
-		pixel_color = vec3_add(pixel_color, ray_color(r, rt->world, rt->world_size, rt->t_range, rt->camera->max_depth));
+		pixel_color = vec3_add(pixel_color, ray_color(r, rt, rt->camera->max_depth));
 		s++;
 	}
 	pixel_color = vec3_mul(pixel_color, rt->camera->pixel_sample_scale);

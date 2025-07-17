@@ -96,7 +96,7 @@ double degree_to_radian(double degree);
 double  random_double(void);
 double  random_double_range(double min, double max);
 
-
+int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt);
 
 void	render_rt(t_rt *rt);
 

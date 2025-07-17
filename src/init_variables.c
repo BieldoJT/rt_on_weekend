@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/16 18:08:03 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/16 21:42:27 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	init_rt(t_rt *rt)
 	init_mlx(rt);
 	//inicializar a camera
 	rt->camera = init_camera(aspect_ratio, rt->image_width, rt->image_height);
-	rt->camera->sample_per_pixel = 10000; // Inicializa com n amostras por pixel
+	rt->camera->sample_per_pixel = 100; // Inicializa com n amostras por pixel
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
 	rt->camera->max_depth = 50;
 	create_world(rt);

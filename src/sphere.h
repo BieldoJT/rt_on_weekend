@@ -1,6 +1,7 @@
 #ifndef SPHERE_H
 # define SPHERE_H
 
+# include "rt.h"
 # include "hittable.h"
 # include "material.h"
 
