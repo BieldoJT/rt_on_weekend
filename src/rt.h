@@ -8,7 +8,7 @@
 # include <X11/X.h>
 # include <X11/keysym.h>
 # include <stdlib.h>
-# include "vec3.h"
+# include "vec3/vec3.h"
 # include "ray.h"
 # include <math.h>
 # include "interval.h"
@@ -28,11 +28,9 @@ typedef struct s_hit_record  t_hit_record;
 
 typedef struct s_material   t_material;
 
-typedef int (*t_scatter_fn)(const t_material *self,
-                            const t_ray *r_in,
-                            const t_hit_record *rec,
-                            t_vec3 *attenuation,
-                            t_ray *scattered);
+typedef struct s_scatter_params	t_scatter_params;
+
+typedef int	(*t_scatter_fn)(const struct s_material *, t_scatter_params *);
 
 /* “Base class” para todos os materiais */
 struct s_material
@@ -126,6 +124,13 @@ typedef enum e_hittable_type
 	// + outras futuras primitivas
 }	t_hittable_type;
 
+typedef struct s_scatter_params
+{
+	const t_ray			*r_in;
+	const t_hit_record	*rec;
+	t_vec3				*attenuation;
+	t_ray				*scattered;
+}	t_scatter_params;
 
 // Funções de inicialização
 void	init_rt(t_rt *rt);

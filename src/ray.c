@@ -1,5 +1,4 @@
 #include "ray.h"
-#include "vec3.h"
 #include "rt.h"
 
 //cria um raio com origem e direção
