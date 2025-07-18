@@ -3,26 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:59:32 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/17 12:00:38 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/18 18:17:47 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-int main()
+int	main(void)
 {
-	t_rt *rt;
+	t_rt	*rt;
 
 	rt = malloc(sizeof(t_rt));
 	if (!rt)
 		return (1);
-
 	init_rt(rt);
 	render_rt(rt);
-
-
 	return (0);
 }
