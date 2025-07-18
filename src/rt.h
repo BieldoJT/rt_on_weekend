@@ -11,7 +11,7 @@
 # include "vec3/vec3.h"
 # include "ray.h"
 # include <math.h>
-# include "interval.h"
+# include "interval/interval.h"
 # include <time.h>
 
 # include <float.h>

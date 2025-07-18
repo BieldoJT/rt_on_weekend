@@ -8,6 +8,7 @@ MINILIBX = make_minilibx
 SRC_DIR = src
 MAT_DIR = src/material/
 CAM_DIR = src/camera/
+INTER_DIR = src/interval/
 LIB_DIR = lib
 
 
@@ -21,7 +22,6 @@ SRCS = \
 	$(SRC_DIR)/ray.c \
 	$(SRC_DIR)/sphere.c \
 	$(SRC_DIR)/hittable.c \
-	$(SRC_DIR)/interval.c \
 	$(MAT_DIR)dielectric.c \
 	$(MAT_DIR)difuse_light.c \
 	$(MAT_DIR)lambertian.c \
@@ -29,6 +29,8 @@ SRCS = \
 	$(CAM_DIR)camera.c \
 	$(CAM_DIR)camera_utils.c \
 	$(SRC_DIR)/init_variables.c \
+	$(INTER_DIR)interval.c \
+	$(INTER_DIR)interval_utils.c \
 	$(SRC_DIR)/render.c
 
 OBJS = $(SRCS:.c=.o)
