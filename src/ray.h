@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/18 18:22:11 by natrodri          #+#    #+#             */
+/*   Updated: 2025/07/18 18:22:36 by natrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef RAY_H
 # define RAY_H
 
@@ -11,16 +23,11 @@ typedef struct s_ray
 
 // Constrói um raio dado origem e direção
 t_ray	ray(t_vec3 origin, t_vec3 direction);
-
 // Retorna a origem do raio
-
 t_vec3	ray_origin(t_ray r);
-
 // Retorna a direção do raio
 t_vec3	ray_direction(t_ray r);
-
 // Retorna o ponto em r(t) = orig + t*dir
 t_vec3	ray_at(t_ray r, double t);
-
 
 #endif
