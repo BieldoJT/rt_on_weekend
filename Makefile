@@ -7,6 +7,7 @@ MINILIBX = make_minilibx
 
 SRC_DIR = src
 MAT_DIR = src/material/
+CAM_DIR = src/camera/
 LIB_DIR = lib
 
 
@@ -17,7 +18,6 @@ SRCS = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/mlx_usage.c \
 	$(SRC_DIR)/color.c \
-	$(SRC_DIR)/camera.c \
 	$(SRC_DIR)/ray.c \
 	$(SRC_DIR)/sphere.c \
 	$(SRC_DIR)/hittable.c \
@@ -25,7 +25,9 @@ SRCS = \
 	$(MAT_DIR)dielectric.c \
 	$(MAT_DIR)difuse_light.c \
 	$(MAT_DIR)lambertian.c \
-	$(MAT_DIR)/metal.c \
+	$(MAT_DIR)metal.c \
+	$(CAM_DIR)camera.c \
+	$(CAM_DIR)camera_utils.c \
 	$(SRC_DIR)/init_variables.c \
 	$(SRC_DIR)/render.c
 
