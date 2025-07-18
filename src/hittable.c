@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hittable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:35:39 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/17 12:14:59 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:54:23 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
-
 
 int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt)
 {
