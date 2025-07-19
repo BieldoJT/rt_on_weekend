@@ -105,8 +105,7 @@ typedef struct s_hit_record
 typedef struct s_hittable
 {
 	void						*obj;
-	int							(*hit)(void *object, t_ray r, double t_min, \
-									double t_max, t_hit_record *rec);
+	int							(*hit)(void *object, t_ray r, t_interval, t_hit_record *rec);
 }								t_hittable;
 
 typedef struct s_sphere
@@ -115,6 +114,15 @@ typedef struct s_sphere
 	double						radius;
 	t_material					*material;
 }								t_sphere;
+
+typedef struct s_equation
+{
+	t_vec3	oc;
+	double	a;
+	double	half_b;
+	double	c;
+	double	disc;
+}	t_equation;
 
 //------------------------------------------------------------------------------
 //|                                   CÂMERA                                   |
@@ -214,8 +222,8 @@ void							set_face_normal(t_hit_record *rec, t_ray r, \
 t_hittable						*sphere_create(t_vec3 center, double radius, \
 									t_material *material);
 void							sphere_destroy(t_hittable *hittable);
-int								sphere_hit(void *object, t_ray r, double t_min,
-									double t_max, t_hit_record *rec);
+int								sphere_hit(void *object, t_ray r, t_interval t,
+									t_hit_record *rec);
 double							hit_sphere(t_vec3 center, double radius, \
 									t_ray r);
 

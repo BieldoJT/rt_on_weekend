@@ -25,7 +25,7 @@ int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt)
 	range = rt->t_range;
 	while (i < rt->world_size)
 	{
-		v = rt->world[i]->hit(rt->world[i]->obj, r, range.min, range.max, &tmp);
+		v = rt->world[i]->hit(rt->world[i]->obj, r, range, &tmp);
 		if (v)
 		{
 			hit_any = 1;

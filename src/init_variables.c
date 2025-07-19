@@ -32,7 +32,7 @@ void	init_rt(t_rt *rt)
 		rt->image_height = 1;
 	init_mlx(rt);
 	rt->camera = init_camera(aspect_ratio, rt->image_width, rt->image_height);
-	rt->camera->sample_per_pixel = 1000;
+	rt->camera->sample_per_pixel = 50000;
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
 	rt->camera->max_depth = 50;
 	create_world(rt);
