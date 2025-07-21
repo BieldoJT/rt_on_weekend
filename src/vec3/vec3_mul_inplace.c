@@ -1,33 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   vec3_mul_inplace.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 18:22:11 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:22:36 by natrodri         ###   ########.fr       */
+/*   Created: 2025/07/17 18:13:50 by natrodri          #+#    #+#             */
+/*   Updated: 2025/07/17 18:13:51 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include "vec3.h"
 
-# include "vec3/vec3.h"
-
-typedef struct s_ray
+void	vec3_mul_inplace(t_vec3 *v, double t)
 {
-	t_vec3	orig;
-	t_vec3	dir;
-}	t_ray;
-
-// Constrói um raio dado origem e direção
-t_ray	ray(t_vec3 origin, t_vec3 direction);
-// Retorna a origem do raio
-t_vec3	ray_origin(t_ray r);
-// Retorna a direção do raio
-t_vec3	ray_direction(t_ray r);
-// Retorna o ponto em r(t) = orig + t*dir
-t_vec3	ray_at(t_ray r, double t);
-
-#endif
+	v->x *= t;
+	v->y *= t;
+	v->z *= t;
+}

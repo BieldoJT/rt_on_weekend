@@ -1,33 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   interval_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 18:22:11 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:22:36 by natrodri         ###   ########.fr       */
+/*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
+/*   Updated: 2025/07/18 18:10:51 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include "interval.h"
 
-# include "vec3/vec3.h"
-
-typedef struct s_ray
+int	interval_contains(const t_interval *i, double x)
 {
-	t_vec3	orig;
-	t_vec3	dir;
-}	t_ray;
+	return (i->min <= x && x <= i->max);
+}
 
-// Constrói um raio dado origem e direção
-t_ray	ray(t_vec3 origin, t_vec3 direction);
-// Retorna a origem do raio
-t_vec3	ray_origin(t_ray r);
-// Retorna a direção do raio
-t_vec3	ray_direction(t_ray r);
-// Retorna o ponto em r(t) = orig + t*dir
-t_vec3	ray_at(t_ray r, double t);
+int	interval_surrounds(const t_interval *i, double x)
+{
+	return (i->min < x && x < i->max);
+}
 
-#endif
+double	interval_clamp(const t_interval *i, double x)
+{
+	if (x < i->min)
+		return (i->min);
+	if (x > i->max)
+		return (i->max);
+	return (x);
+}

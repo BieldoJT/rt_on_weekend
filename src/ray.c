@@ -1,33 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ray.c                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/18 18:20:55 by natrodri          #+#    #+#             */
+/*   Updated: 2025/07/18 18:21:49 by natrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ray.h"
-#include "vec3.h"
 #include "rt.h"
 
 //cria um raio com origem e direção
-t_ray ray(t_vec3 origin, t_vec3 direction)
+t_ray	ray(t_vec3 origin, t_vec3 direction)
 {
-	t_ray r;
+	t_ray	r;
 
 	r.orig = origin;
 	r.dir = direction;
-	return r;
+	return (r);
 }
 
 //acessor para a origem do raio
-t_vec3 ray_origin(t_ray r)
+t_vec3	ray_origin(t_ray r)
 {
-	return r.orig;
+	return (r.orig);
 }
 
 //acessor para a direção do raio
-t_vec3 ray_direction(t_ray r)
+t_vec3	ray_direction(t_ray r)
 {
-	return r.dir;
+	return (r.dir);
 }
 
 //retorna o ponto no raio dado um parâmetro t
-t_vec3 ray_at(t_ray r, double t)
+t_vec3	ray_at(t_ray r, double t)
 {
-	return vec3_add(r.orig, vec3_mul(r.dir, t));
+	return (vec3_add(r.orig, vec3_mul(r.dir, t)));
 }
-
-
