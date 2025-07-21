@@ -1,33 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   random_on_hemisphere.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 18:22:11 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:22:36 by natrodri         ###   ########.fr       */
+/*   Created: 2025/07/17 18:05:10 by natrodri          #+#    #+#             */
+/*   Updated: 2025/07/17 18:06:16 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include "vec3.h"
 
-# include "vec3/vec3.h"
-
-typedef struct s_ray
+t_vec3	random_on_hemisphere(t_vec3 normal)
 {
-	t_vec3	orig;
-	t_vec3	dir;
-}	t_ray;
+	t_vec3	in_unit_sphere;
 
-// Constrói um raio dado origem e direção
-t_ray	ray(t_vec3 origin, t_vec3 direction);
-// Retorna a origem do raio
-t_vec3	ray_origin(t_ray r);
-// Retorna a direção do raio
-t_vec3	ray_direction(t_ray r);
-// Retorna o ponto em r(t) = orig + t*dir
-t_vec3	ray_at(t_ray r, double t);
-
-#endif
+	in_unit_sphere = random_vec3_in_range(-1.0, 1.0);
+	if (vec3_length_squared(in_unit_sphere) >= 1.0)
+		return (random_on_hemisphere(normal));
+	if (vec3_dot(in_unit_sphere, normal) > 0.0)
+		return (in_unit_sphere);
+	else
+		return (vec3_neg(in_unit_sphere));
+}

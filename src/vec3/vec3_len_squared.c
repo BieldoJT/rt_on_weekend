@@ -1,33 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ray.h                                              :+:      :+:    :+:   */
+/*   vec3_len_squared.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/18 18:22:11 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:22:36 by natrodri         ###   ########.fr       */
+/*   Created: 2025/07/17 18:12:02 by natrodri          #+#    #+#             */
+/*   Updated: 2025/07/17 18:13:15 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef RAY_H
-# define RAY_H
+#include "vec3.h"
 
-# include "vec3/vec3.h"
-
-typedef struct s_ray
+double	vec3_length_squared(t_vec3 v)
 {
-	t_vec3	orig;
-	t_vec3	dir;
-}	t_ray;
-
-// Constrói um raio dado origem e direção
-t_ray	ray(t_vec3 origin, t_vec3 direction);
-// Retorna a origem do raio
-t_vec3	ray_origin(t_ray r);
-// Retorna a direção do raio
-t_vec3	ray_direction(t_ray r);
-// Retorna o ponto em r(t) = orig + t*dir
-t_vec3	ray_at(t_ray r, double t);
-
-#endif
+	return (v.x * v.x + v.y * v.y + v.z * v.z);
+}

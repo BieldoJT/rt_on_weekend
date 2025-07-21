@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   hittable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:35:39 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/16 21:53:58 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/18 17:54:23 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "hittable.h"
-
+#include "rt.h"
 
 int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt)
 {
@@ -26,7 +25,7 @@ int	hit_world(t_ray r, t_hit_record *rec, t_rt *rt)
 	range = rt->t_range;
 	while (i < rt->world_size)
 	{
-		v = rt->world[i]->hit(rt->world[i]->obj, r, range.min, range.max, &tmp);
+		v = rt->world[i]->hit(rt->world[i]->obj, r, range, &tmp);
 		if (v)
 		{
 			hit_any = 1;
