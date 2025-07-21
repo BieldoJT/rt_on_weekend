@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   color.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:13:40 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/18 18:37:48 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/07/21 18:54:37 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ t_vec3	ray_color(t_ray r, t_rt *rt, int depth)
 	params.attenuation = &atten;
 	params.scattered = &sctred;
 	if (depth <= 0)
-		return (vec3(0, 0, 0));
+		return (vec3(0.1, 0.1, 0.2)); //background color
 	if (!hit_world(r, &rec, rt))
-		return (vec3(0, 0, 0));
+		return (vec3(0.1, 0.1, 0.2)); //background color
 	if (!rec.material->scatter(rec.material, &params))
 		return (rec.material->color_emited);
 	return (vec3_add(rec.material->color_emited,
