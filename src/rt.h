@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/18 18:23:28 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:11:52 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,19 @@
 ** =============================================================================
 */
 
-#include "../lib/libft.h"
-#include "../minilibx-linux/mlx.h"
-#include "vec3/vec3.h"
-#include "ray.h"
-#include "interval/interval.h"
-#include <X11/X.h>
-#include <X11/keysym.h>
-#include <fcntl.h>
-#include <float.h>
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
+# include "../lib/libft.h"
+# include "../minilibx-linux/mlx.h"
+# include "vec3/vec3.h"
+# include "ray.h"
+# include "interval/interval.h"
+# include <X11/X.h>
+# include <X11/keysym.h>
+# include <fcntl.h>
+# include <float.h>
+# include <math.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <time.h>
 
 /*
 ** =============================================================================
@@ -93,27 +93,27 @@ typedef struct s_material
 
 typedef struct s_hit_record
 {
-	double						t;
-	t_vec3						p;
-	t_vec3						normal;
-	t_material					*material;
-	int							front_face;
-	double						u;
-	double						v;
-}								t_hit_record;
+	double		t;
+	t_vec3		p;
+	t_vec3		normal;
+	t_material	*material;
+	int			front_face;
+	double		u;
+	double		v;
+}	t_hit_record;
 
 typedef struct s_hittable
 {
-	void						*obj;
-	int							(*hit)(void *object, t_ray r, t_interval, t_hit_record *rec);
-}								t_hittable;
+	void		*obj;
+	int			(*hit)(void *object, t_ray r, t_interval, t_hit_record *rec);
+}	t_hittable;
 
 typedef struct s_sphere
 {
-	t_vec3						center;
-	double						radius;
-	t_material					*material;
-}								t_sphere;
+	t_vec3		center;
+	double		radius;
+	t_material	*material;
+}	t_sphere;
 
 typedef struct s_equation
 {

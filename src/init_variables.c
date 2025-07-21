@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_variables.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/18 18:34:18 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/07/21 14:32:07 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	init_rt(t_rt *rt)
 		rt->image_height = 1;
 	init_mlx(rt);
 	rt->camera = init_camera(aspect_ratio, rt->image_width, rt->image_height);
-	rt->camera->sample_per_pixel = 50000;
+	rt->camera->sample_per_pixel = 1000;
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
 	rt->camera->max_depth = 50;
 	create_world(rt);
@@ -46,9 +46,9 @@ static void	create_world(t_rt *rt)
 	rt->world[rt->world_size++] = sphere_create(vec3(0.0, -100.5, -1.0), 100.0,
 			lambertian_create(vec3(0.8, 0.8, 0.0)));
 	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5,
-			metal_create(vec3(0., 0.2, 0.5), 0.5));
+			lambertian_create(vec3(0.0, 0.2, 0.5)));
 	rt->world[rt->world_size++] = sphere_create(vec3(-1.0, 0.0, -1.0), 0.5,
 			dielectric_create(1.0 / 1.5));
-	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 2.0, 2.0), 0.5,
-			diffuse_light_create(vec3(50, 50, 50)));
+	rt->world[rt->world_size++] = sphere_create(vec3(20.0, 2.0, -30.0), 1.0,
+			diffuse_light_create(vec3(200.0, 200.0, 200.0)));
 }
