@@ -13,7 +13,7 @@ t_aabb	*init_aabb(t_interval x, t_interval y, t_interval z)
 	return (result);
 }
 
-t_aabb *aabb_empty(void)
+t_aabb	*aabb_empty(void)
 {
 	t_aabb	*result;
 
@@ -26,7 +26,7 @@ t_aabb *aabb_empty(void)
 	return (result);
 }
 
-void get_point(t_aabb *box ,t_vec3 a, t_vec3 b)
+void	get_point(t_aabb *box ,t_vec3 a, t_vec3 b)
 {
 	if (a.x <= b.x)
 		interval_init(&box->x, a.x, b.x);
@@ -43,44 +43,62 @@ void get_point(t_aabb *box ,t_vec3 a, t_vec3 b)
 }
 
 
-t_interval axis_interval(t_aabb box, int n)
+static t_interval	*axis_interval(t_aabb box, int n)
 {
 	if (n == 1)
-		return box.y;
+		return &box.y;
 	else if (n == 2)
-		return box.z;
+		return &box.z;
 	else
-		return box.x;
+		return &box.x;
 }
 
 
-
-int hit_aabb(const t_aabb *b, const t_ray *r, t_interval *ray_t)
+static void	get_ray_values(t_ray *r,t_dist_point *values)
 {
-	int	axis;
-	double	inv_d, t0, t1;
-	const double orig[3] = { r->orig.x, r->orig.y, r->orig.z };
-	const double dir [3] = { r->dir.x,  r->dir.y,  r->dir.z };
-	double tmp;
+	values->orig[0] = r->orig.x;
+	values->orig[1] = r->orig.y;
+	values->orig[2] = r->orig.z;
+	values->dir[0] = r->dir.x;
+	values->dir[1] = r->dir.y;
+	values->dir[2] = r->dir.z;
+}
 
-	for (axis = 0; axis < 3; ++axis)
+static void	get_dist_point(int axis, t_dist_point *values, t_aabb *b)
+{
+	const t_interval *iv;
+	iv = axis_interval(*b, axis);
+
+	values->inv_d = 1.0 / values->dir[axis];
+	values->t0 = (iv->min - values->orig[axis]) * values->inv_d;
+	values->t1 = (iv->max - values->orig[axis]) * values->inv_d;
+	if (values->inv_d < 0.0)
 	{
-		const t_interval *iv = (axis == 0 ? &b->x
-								 : axis == 1 ? &b->y
-								             : &b->z);
-		inv_d = 1.0 / dir[axis];
-		t0    = (iv->min - orig[axis]) * inv_d;
-		t1    = (iv->max - orig[axis]) * inv_d;
-		if (inv_d < 0.0)
-		{
-			double tmp = t0;
-			t0 = t1;
-			t1 = tmp;
-		}
-		if (t0 > ray_t->min) ray_t->min = t0;
-		if (t1 < ray_t->max) ray_t->max = t1;
+		double tmp = values->t0;
+		values->t0 = values->t1;
+		values->t1 = tmp;
+	}
+}
+
+int	hit_aabb(const t_aabb *b, const t_ray *r, t_interval *ray_t)
+{
+	int				axis;
+	double			tmp;
+	t_dist_point	values;
+
+	get_ray_values(r, &values);
+	axis = 0;
+	while (axis < 3)
+	{
+		get_dist_point(b, &values, axis);
+
+		if (values.t0 > ray_t->min)
+			ray_t->min = values.t0;
+		if (values.t1 < ray_t->max)
+			ray_t->max = values.t1;
 		if (ray_t->max <= ray_t->min)
 			return (0);
+		axis++;
 	}
 	return (1);
 }
