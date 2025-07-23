@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interval.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:12:07 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:13:17 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/07/22 22:11:15 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		interval_contains(const t_interval *i, double x);
 /* testa se x está em (min, max) */
 int		interval_surrounds(const t_interval *i, double x);
 double	interval_clamp(const t_interval *i, double x);
+void expand_interval(t_interval *interval ,double delta);
 
 extern const t_interval	g_interval_empty;
 extern const t_interval	g_interval_universe;
