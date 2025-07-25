@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/21 14:11:52 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/25 16:16:49 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,13 @@ typedef struct s_equation
 	double	c;
 	double	disc;
 }	t_equation;
+
+typedef	struct s_plane
+{
+	t_vec3	point;
+	t_vec3	norma;
+	t_material	*material;
+}	t_plane;
 
 //------------------------------------------------------------------------------
 //|                                   CÂMERA                                   |
@@ -244,5 +251,12 @@ double							random_double(void);
 double							random_double_range(double min, double max);
 int								rgb_to_int(int r, int g, int b);
 t_vec3							sample_square(void);
+
+
+
+
+
+t_hittable	*plane_creat(t_vec3 point, t_vec3 normal, t_material *material);
+
 
 #endif

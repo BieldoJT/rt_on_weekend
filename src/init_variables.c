@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_variables.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/21 14:32:07 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/07/25 12:04:11 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,17 +38,13 @@ void	init_rt(t_rt *rt)
 	create_world(rt);
 }
 
-static void	create_world(t_rt *rt)
+static void create_world(t_rt *rt)
 {
-	rt->world = malloc(sizeof(t_hittable *) * 4);
-	if (!rt->world)
-		return ;
-	rt->world[rt->world_size++] = sphere_create(vec3(0.0, -100.5, -1.0), 100.0,
-			lambertian_create(vec3(0.8, 0.8, 0.0)));
-	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5,
-			lambertian_create(vec3(0.0, 0.2, 0.5)));
-	rt->world[rt->world_size++] = sphere_create(vec3(-1.0, 0.0, -1.0), 0.5,
-			dielectric_create(1.0 / 1.5));
-	rt->world[rt->world_size++] = sphere_create(vec3(20.0, 2.0, -30.0), 1.0,
-			diffuse_light_create(vec3(200.0, 200.0, 200.0)));
+    rt->world = malloc(sizeof(t_hittable *) * 5);
+    if (!rt->world)
+        return ;
+    rt->world[rt->world_size++] = plane_creat(vec3(0, -0.5, 0), vec3(0, 1, 0),
+		lambertian_create(vec3(0.2, 0.8, 0.2)));
+    rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5,
+		metal_create(vec3(0., 0.2, 0.5), 0.5));
 }
