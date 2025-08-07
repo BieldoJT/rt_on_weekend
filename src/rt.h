@@ -131,6 +131,16 @@ typedef	struct s_plane
 	t_material	*material;
 }	t_plane;
 
+
+typedef	struct	s_cylinder
+{
+	t_vec3		center;	//center the cylidner of the height
+	t_vec3		axis;
+	double		radius;
+	double		height;
+	t_material	*material;
+}	t_cylinder;
+
 //------------------------------------------------------------------------------
 //|                                   CÂMERA                                   |
 //------------------------------------------------------------------------------
@@ -257,6 +267,6 @@ t_vec3							sample_square(void);
 
 
 t_hittable	*plane_creat(t_vec3 point, t_vec3 normal, t_material *material);
-
+t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, t_material *mat);
 
 #endif

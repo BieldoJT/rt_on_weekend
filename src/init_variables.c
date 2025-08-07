@@ -45,6 +45,8 @@ static void create_world(t_rt *rt)
         return ;
     rt->world[rt->world_size++] = plane_creat(vec3(0, -0.5, 0), vec3(0, 1, 0),
 		lambertian_create(vec3(0.2, 0.8, 0.2)));
-    rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5,
-		metal_create(vec3(0., 0.2, 0.5), 0.5));
+    //rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5,
+	//	metal_create(vec3(0., 0.2, 0.5), 0.5));
+	rt->world[rt->world_size++] = cylinder_create(vec3(0.0, 0.0, -1.2),
+		vec3(0, 1, 0), 0.3, metal_create(vec3(0., 0.2, 0.5), 0.5));
 }

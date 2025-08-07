@@ -29,7 +29,8 @@ SRC = \
 	random_vec3.c \
 	random_vec3_in_range.c \
 	random_unit_vector.c \
-	random_on_hemisphere.c
+	random_on_hemisphere.c	\
+	vec3_normalize.c
 
 OBJ = $(SRC:.c=.o)
 

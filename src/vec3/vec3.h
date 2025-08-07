@@ -56,5 +56,6 @@ t_vec3	vec3_reflect(t_vec3 v, t_vec3 n);
 t_vec3	vec3_refract(t_vec3 uv, t_vec3 n, double ref_index);
 double	random_double(void);
 double	random_double_range(double min, double max);
+t_vec3  vec3_normalize(t_vec3 v);
 
 #endif
