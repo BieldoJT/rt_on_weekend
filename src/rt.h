@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   rt.h                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/21 14:11:52 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:25:41 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,8 @@ void							init_rt(t_rt *rt);
 //------------------------------------------------------------------------------
 //|                                 render.c                                   |
 //------------------------------------------------------------------------------
-void							render_rt(t_rt *rt);
+//void							render_rt(t_rt *rt);
+void	render_rt(t_rt *rt); // no anti-aliasing
 t_vec3							ray_color(t_ray r, t_rt *rt, int depth);
 
 //------------------------------------------------------------------------------
@@ -206,7 +207,8 @@ t_camera						*init_camera(double aspect_ratio, \
 void							destroy_camera(t_camera *camera);
 t_vec3							get_pixel_center(t_camera *camera, int i, int j,
 									t_vec3 pixel00);
-t_ray							get_ray(const t_camera *cam, int i, int j);
+t_ray							get_ray(const t_camera *cam, int i, int j,
+									int *sample_index);
 t_vec3							get_pixel00(t_camera *camera);
 
 //------------------------------------------------------------------------------

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/18 18:23:28 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/08/12 18:03:26 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,21 +32,25 @@ double	linear_to_gamma(double x)
 	return (0.0);
 }
 
+
+//COM ANTI-ALIASING
 int	anti_aliasing_get_color(t_rt *rt, int i, int j)
 {
-	int		s;
 	t_vec3	pixel_color;
 	t_ray	r;
 	t_vec3	irgb;
+	int		sample_index[2]; //to have the 2 variables
 
 	pixel_color = vec3(0, 0, 0);
-	s = 0;
-	while (s < rt->camera->sample_per_pixel)
+	sample_index[1] = (int)sqrt((float)rt->camera->sample_per_pixel);
+	if (sample_index[1] < 1) sample_index[1] = 1;
+	sample_index[0] = 0;
+	while (sample_index[0] < sample_index[1] * sample_index[1])
 	{
-		r = get_ray(rt->camera, i, j);
+		r = get_ray(rt->camera, i, j, sample_index);
 		pixel_color = vec3_add(pixel_color,
 				ray_color(r, rt, rt->camera->max_depth));
-		s++;
+		sample_index[0]++;
 	}
 	pixel_color = vec3_mul(pixel_color, rt->camera->pixel_sample_scale);
 	pixel_color.x = linear_to_gamma(pixel_color.x);

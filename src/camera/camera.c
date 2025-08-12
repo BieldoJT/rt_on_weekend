@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:33:51 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 17:42:00 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:18:17 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ t_vec3	get_pixel_center(t_camera *camera, int i, int j, t_vec3 pixel00)
 			vec3(0.0, -camera->pixel_dv_y * j, 0.0));
 	return (pixel_center);
 }
-
+/*
 t_vec3	sample_square(void)
 {
 	double	dx;
@@ -48,3 +48,4 @@ t_vec3	sample_square(void)
 	dy = random_double() - 0.5;
 	return ((t_vec3){dx, dy, 0.0});
 }
+*/

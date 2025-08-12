@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dielectric.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:18:30 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 17:19:00 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:50:22 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,13 @@
 static double	reflectance(double cos, double refr_index)
 {
 	double	r0;
+	double	x;
 
 	r0 = (1 - refr_index) / (1 + refr_index);
 	r0 = r0 * r0;
-	return (r0 + (1 - r0) * pow((1 - cos), 5));
+	x = 1.0 - cos;
+	x = x * x * x * x * x; /* (1 - cos)^5 mais barato que pow */
+	return (r0 + (1.0 - r0) * x);
 }
 
 static void	direction_dielectric(t_scatter_params *p,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   camera_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:40:16 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 17:45:44 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/08/12 17:23:55 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,18 +44,34 @@ void	destroy_camera(t_camera *camera)
 	}
 }
 
+static t_vec3	sample_stratified(int s, int n)
+{
+	int		sample_x;
+	int		sample_y;
+	double	dx;
+	double	dy;
+
+	sample_x = s % n;
+	sample_y = s / n;
+	//random moviment
+	dx = ((double)sample_x + random_double()) / (double)n - 0.5;
+	dy = ((double)sample_y + random_double()) / (double)n - 0.5;
+	return ((t_vec3){dx, dy, 0.0});
+}
+
 /*
 ** Constrói um raio que parte de cam->camera_center e atravessa
 ** o pixel (i,j), com jitter dentro do pixel.
+** get_ray_stratified
 */
-t_ray	get_ray(const t_camera *cam, int i, int j)
+t_ray	get_ray(const t_camera *cam, int i, int j, int *sample_index)
 {
 	t_vec3	offset;
 	double	u;
 	double	v;
 	t_vec3	pixel_sample;
 
-	offset = sample_square();
+	offset = sample_stratified(sample_index[0], sample_index[1]);
 	u = ((double)i + offset.x) * cam->pixel_du_x;
 	v = ((double)j + offset.y) * cam->pixel_dv_y;
 	pixel_sample = vec3_add(vec3_add(cam->upper_left_corner,
