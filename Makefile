@@ -2,7 +2,7 @@ NAME = rt
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-MINILIBX_FLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+MINILIBX_FLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm -lpthread -O2
 MINILIBX = make_minilibx
 
 SRC_DIR = src

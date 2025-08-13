@@ -6,7 +6,7 @@
 /*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/08/12 17:25:41 by bieldojt         ###   ########.fr       */
+/*   Updated: 2025/08/12 20:55:54 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct s_camera
 	t_vec3						upper_left_corner;
 	double						pixel_du_x;
 	double						pixel_dv_y;
+	int							count_samples;
 	int							sample_per_pixel;
 	double						pixel_sample_scale;
 	int							max_depth;
