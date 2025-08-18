@@ -37,38 +37,52 @@ int hit_cylinder(t_cylinder *cld, t_ray r, t_interval t_range, t_hit_record *rec
     double t1;
     t_vec3 oc;
     t_vec3 projected;
+    double half_height;
+    double axis_dist;
 
     encapsulate_var(abc, r, cld);
     if (!bhaskara(abc, &t0, &t1))
         return (0);
+    half_height = cld->height / 2.0;
     if (t0 > t_range.min && t0 < t_range.max)
     {
         rec->t = t0;
         rec->p = ray_at(r, rec->t);
-        rec->material = cld->material;
         oc = vec3_sub(rec->p, cld->center);
-        projected = vec3_mul(cld->axis, vec3_dot(oc, cld->axis));
-        rec->normal = vec3_normalize(vec3_sub(oc, projected));
-        return (1);
+        axis_dist = vec3_dot(oc, cld->axis);
+        if (axis_dist >= -half_height && axis_dist <= half_height)
+        {
+            rec->material = cld->material;
+            projected = vec3_mul(cld->axis, axis_dist);
+            rec->normal = vec3_normalize(vec3_sub(oc, projected));
+            return (1);
+        }
     }
     if (t1 > t_range.min && t1 < t_range.max)
     {
         rec->t = t1;
         rec->p = ray_at(r, rec->t);
-        rec->material = cld->material;
         oc = vec3_sub(rec->p, cld->center);
-        projected = vec3_mul(cld->axis, vec3_dot(oc, cld->axis));
-        rec->normal = vec3_normalize(vec3_sub(oc, projected));
-        return (1);
+        axis_dist = vec3_dot(oc, cld->axis);
+        if (axis_dist >= -half_height && axis_dist <= half_height)
+        {
+            rec->material = cld->material;
+            projected = vec3_mul(cld->axis, axis_dist);
+            rec->normal = vec3_normalize(vec3_sub(oc, projected));
+            return (1);
+        }
     }
     return (0);
 }
 
-t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, t_material *mat)
+
+t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, double height, t_material *mat)
 {
     t_hittable *hittable_obj;
     t_cylinder *cylinder_data;
 
+    if (radius <= 0.0 || height <= 0.0)
+        return (NULL);
     hittable_obj = malloc(sizeof(t_hittable));
     cylinder_data = malloc(sizeof(t_cylinder));
     if (!hittable_obj || !cylinder_data)
@@ -76,7 +90,7 @@ t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, t_materia
     cylinder_data->center = center;
     cylinder_data->axis = vec3_normalize(axis);
     cylinder_data->radius = radius;
-    cylinder_data->height = 0;
+    cylinder_data->height = height;
     cylinder_data->material = mat;
     hittable_obj->obj = cylinder_data;
     hittable_obj->hit = (int (*)(void *, t_ray, t_interval, t_hit_record *))hit_cylinder;

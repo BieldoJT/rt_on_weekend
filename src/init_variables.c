@@ -48,5 +48,5 @@ static void create_world(t_rt *rt)
     //rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.0, -1.2), 0.5,
 	//	metal_create(vec3(0., 0.2, 0.5), 0.5));
 	rt->world[rt->world_size++] = cylinder_create(vec3(0.0, 0.0, -1.2),
-		vec3(0, 1, 0), 0.3, metal_create(vec3(0., 0.2, 0.5), 0.5));
+		vec3(0, 1, 0), 0.3, 1.2, metal_create(vec3(0., 0.2, 0.5), 0.5));
 }
