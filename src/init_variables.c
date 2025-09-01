@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   init_variables.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/08/12 20:56:20 by bieldojt         ###   ########.fr       */
+/*   Updated: 2025/09/01 14:41:18 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	init_rt(t_rt *rt)
 	init_mlx(rt);
 	rt->camera = init_camera(aspect_ratio, rt->image_width, rt->image_height);
 	rt->camera->count_samples = 0;
-	rt->camera->sample_per_pixel = 1000;  //final 128 , preview 64
+	rt->camera->sample_per_pixel = 128;  //final 128 , preview 64
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
 	rt->camera->max_depth = 20; //final 20 , preview 12
 	create_world(rt);
