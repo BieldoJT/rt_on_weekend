@@ -30,51 +30,45 @@ static int bhaskara(double *abc, double *t0, double *t1)
     return (1);
 }
 
-int hit_cylinder(t_cylinder *cld, t_ray r, t_interval t_range, t_hit_record *rec)
+static int	check_cylinder_cap(
+	t_cylinder *cld, t_ray r, double t, t_hit_record *rec)
 {
-    double abc[3];
-    double t0;
-    double t1;
-    t_vec3 oc;
-    t_vec3 projected;
-    double half_height;
-    double axis_dist;
+	t_vec3	oc;
+	t_vec3	projected;
+	double	half_height;
+	double	axis_dist;
 
-    encapsulate_var(abc, r, cld);
-    if (!bhaskara(abc, &t0, &t1))
-        return (0);
-    half_height = cld->height / 2.0;
-    if (t0 > t_range.min && t0 < t_range.max)
-    {
-        rec->t = t0;
-        rec->p = ray_at(r, rec->t);
-        oc = vec3_sub(rec->p, cld->center);
-        axis_dist = vec3_dot(oc, cld->axis);
-        if (axis_dist >= -half_height && axis_dist <= half_height)
-        {
-            rec->material = cld->material;
-            projected = vec3_mul(cld->axis, axis_dist);
-            rec->normal = vec3_normalize(vec3_sub(oc, projected));
-            return (1);
-        }
-    }
-    if (t1 > t_range.min && t1 < t_range.max)
-    {
-        rec->t = t1;
-        rec->p = ray_at(r, rec->t);
-        oc = vec3_sub(rec->p, cld->center);
-        axis_dist = vec3_dot(oc, cld->axis);
-        if (axis_dist >= -half_height && axis_dist <= half_height)
-        {
-            rec->material = cld->material;
-            projected = vec3_mul(cld->axis, axis_dist);
-            rec->normal = vec3_normalize(vec3_sub(oc, projected));
-            return (1);
-        }
-    }
-    return (0);
+	if (t <= 0)
+		return (0);
+	rec->t = t;
+	rec->p = ray_at(r, rec->t);
+	oc = vec3_sub(rec->p, cld->center);
+	axis_dist = vec3_dot(oc, cld->axis);
+	half_height = cld->height / 2.0;
+	if (axis_dist < -half_height || axis_dist > half_height)
+		return (0);
+	rec->material = cld->material;
+	projected = vec3_mul(cld->axis, axis_dist);
+	rec->normal = vec3_normalize(vec3_sub(oc, projected));
+	return (1);
 }
 
+int	hit_cylinder(
+	t_cylinder *cld, t_ray r, t_interval tr, t_hit_record *rec)
+{
+	double	abc[3];
+	double	t0;
+	double	t1;
+
+	encapsulate_var(abc, r, cld);
+	if (!bhaskara(abc, &t0, &t1))
+		return (0);
+	if (t0 > tr.min && t0 < tr.max && check_cylinder_cap(cld, r, t0, rec))
+		return (1);
+	if (t1 > tr.min && t1 < tr.max && check_cylinder_cap(cld, r, t1, rec))
+		return (1);
+	return (0);
+}
 
 t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, double height, t_material *mat)
 {
