@@ -30,6 +30,33 @@ static int bhaskara(double *abc, double *t0, double *t1)
     return (1);
 }
 
+static int	check_one_cap(t_cylinder *cld, t_ray r, t_interval *tr,
+	t_hit_record *rec, double sign)
+{
+	t_vec3	cap_center;
+	double	t;
+	double	denom;
+	t_vec3	p_minus_center;
+
+	denom = vec3_dot(r.dir, cld->axis);
+	if (fabs(denom) < 1e-6)
+		return (0);
+	cap_center = vec3_add(cld->center, vec3_mul(cld->axis,
+				sign * cld->height / 2.0));
+	t = vec3_dot(vec3_sub(cap_center, r.orig), cld->axis) / denom;
+	if (t <= tr->min || t >= tr->max)
+		return (0);
+	p_minus_center = vec3_sub(ray_at(r, t), cap_center);
+	if (vec3_length_squared(p_minus_center) > (cld->radius * cld->radius))
+		return (0);
+	tr->max = t;
+	rec->t = t;
+	rec->p = ray_at(r, t);
+	rec->normal = vec3_mul(cld->axis, sign);
+	rec->material = cld->material;
+	return (1);
+}
+
 static int	check_cylinder_cap(
 	t_cylinder *cld, t_ray r, double t, t_hit_record *rec)
 {
@@ -53,21 +80,31 @@ static int	check_cylinder_cap(
 	return (1);
 }
 
-int	hit_cylinder(
-	t_cylinder *cld, t_ray r, t_interval tr, t_hit_record *rec)
+int	hit_cylinder(t_cylinder *cld, t_ray r, t_interval tr, t_hit_record *rec)
 {
 	double	abc[3];
-	double	t0;
-	double	t1;
+	double	t[2];
+	int		hit_found;
 
+	hit_found = 0;
 	encapsulate_var(abc, r, cld);
-	if (!bhaskara(abc, &t0, &t1))
-		return (0);
-	if (t0 > tr.min && t0 < tr.max && check_cylinder_cap(cld, r, t0, rec))
-		return (1);
-	if (t1 > tr.min && t1 < tr.max && check_cylinder_cap(cld, r, t1, rec))
-		return (1);
-	return (0);
+	if (!bhaskara(abc, &t[0], &t[1]))
+		t[0] = -1; // Sinaliza que não há interseção com o corpo
+	if (t[0] > tr.min && t[0] < tr.max && check_cylinder_cap(cld, r, t[0], rec))
+	{
+		tr.max = rec->t;
+		hit_found = 1;
+	}
+	if (t[1] > tr.min && t[1] < tr.max && check_cylinder_cap(cld, r, t[1], rec))
+	{
+		tr.max = rec->t;
+		hit_found = 1;
+	}
+	if (check_one_cap(cld, r, &tr, rec, 1.0)) // Tampa de cima
+		hit_found = 1;
+	if (check_one_cap(cld, r, &tr, rec, -1.0)) // Tampa de baixo
+		hit_found = 1;
+	return (hit_found);
 }
 
 t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, double height, t_material *mat)
