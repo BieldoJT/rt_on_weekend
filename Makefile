@@ -33,7 +33,8 @@ SRCS = \
 	$(INTER_DIR)interval_utils.c \
 	$(SRC_DIR)/render.c \
 	$(SRC_DIR)/plane.c	\
-	$(SRC_DIR)/cylinder.c
+	$(SRC_DIR)/cylinder/cylinder.c \
+	$(SRC_DIR)/cylinder/utils_cyld.c
 
 OBJS = $(SRCS:.c=.o)
 

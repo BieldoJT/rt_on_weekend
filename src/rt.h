@@ -43,6 +43,8 @@
 # define TRUE 1
 # define FALSE 0
 # define PI 3.1415926535897932385
+// Para evitar problemas com ponto flutuante, como sugerido no livro
+#define EPSILON 0.00001
 
 /*
 ** =============================================================================
@@ -256,6 +258,15 @@ void							material_destroy(t_material *m);
 //------------------------------------------------------------------------------
 //|                                 utils.c                                    |
 //------------------------------------------------------------------------------
+
+
+// Estrutura para armazenar todas as interseções encontradas
+typedef struct s_intersections
+{
+    double  t[4];    // Um cilindro pode ter no máximo 4 interseções
+    int     count;
+}   t_intersections;
+
 double							degree_to_radian(double degree);
 double							random_double(void);
 double							random_double_range(double min, double max);
@@ -268,5 +279,9 @@ t_vec3							sample_square(void);
 
 t_hittable	*plane_creat(t_vec3 point, t_vec3 normal, t_material *material);
 t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, double height, t_material *mat);
+int check_cap(t_cylinder *cyl, t_ray r, double t);
+int bhaskara(double *abc, double *t0, double *t1);
+void add_intersection(t_intersections *xs, double t);
+
 
 #endif
