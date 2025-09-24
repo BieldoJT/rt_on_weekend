@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/24 02:01:55 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:57:35 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,16 +77,11 @@ typedef struct s_scatter_params
 	t_vec3						*attenuation;
 	t_ray						*scattered;
 	int							is_specular; //pro metal e o dialectrico
-	double						pdf; //pro difuso
 }								t_scatter_params;
 
 typedef struct s_material
 {
 	t_scatter_fn				scatter;
-	double						(*scattering_pdf)(const struct s_material *mat, \
-									const t_ray *r_in, \
-									const t_hit_record *rec, \
-									t_vec3 *scattered);
 	t_vec3						albedo;
 	double						fuzz;
 	double						refractive_index;
@@ -101,6 +96,7 @@ typedef struct s_point_light
 {
 	t_vec3	position;
 	t_vec3	intensity;
+	struct s_point_light	*next;
 }	t_point_light;
 
 //------------------------------------------------------------------------------
@@ -199,8 +195,7 @@ typedef struct s_rt
 	t_hittable					**world;
 	t_interval					t_range;
 	t_interval					intensity;
-	int							n_lights;
-	t_point_light				**lights;
+	t_point_light				*lights;
 	t_ambient					ambient;
 }								t_rt;
 
@@ -223,8 +218,8 @@ void							init_rt(t_rt *rt);
 //------------------------------------------------------------------------------
 //|                                 render.c                                   |
 //------------------------------------------------------------------------------
-//void							render_rt(t_rt *rt);
-void	render_rt(t_rt *rt); // no anti-aliasing
+
+void	render_rt(t_rt *rt);
 t_vec3							ray_color(t_ray r, t_rt *rt, int depth);
 
 //------------------------------------------------------------------------------
@@ -256,74 +251,8 @@ void							set_face_normal(t_hit_record *rec, t_ray r, \
 									t_vec3 outward_normal);
 
 //------------------------------------------------------------------------------
-//|                                   onb.c                                    |
-//------------------------------------------------------------------------------
-
-typedef struct s_onb
-{
-	t_vec3	u;
-	t_vec3	v;
-	t_vec3	w;
-}	t_onb;
-
-
-/* Constrói ONB com w alinhado à normal n (n deve ser normalizada). */
-void	onb_build(t_onb *b, t_vec3 n);
-
-/* Converte coordenadas locais (a,b,c) para o espaço do mundo usando a ONB. */
-t_vec3	onb_local(const t_onb *b, double a, double b2, double c);
-
-
-//------------------------------------------------------------------------------
-//|                                   pdf.c                                    |
-//------------------------------------------------------------------------------
-
-typedef struct s_pdf t_pdf;
-typedef struct s_pdf
-{
-	double	(*value)(t_pdf *p, t_vec3 d);
-	t_vec3	(*generate)(t_pdf *p);
-	void	*data;
-}	t_pdf;
-
-typedef struct s_pdfc
-{
-	t_onb	basis;
-}	t_pdfc;
-
-typedef struct s_pdfm
-{
-	t_pdf	a;
-	t_pdf	b;
-}	t_pdfm;
-
-/* PDF cosseno para difusos (usará ONB alinhada à normal). */
-t_pdf	pdf_cosine_make(t_vec3 normal);
-
-/* PDF para amostrar uma ESFERA EMISSIVA vista a partir de 'origin'. */
-/* 'sphere' é um ponteiro para o seu t_sphere (void* para não vazar tipos). */
-t_pdf	pdf_light_sphere_make(void *sphere, t_vec3 origin);
-
-/* Mistura 50/50 de dois PDFs (cosine + light, p.ex.). */
-t_pdf	pdf_mix_make(t_pdf a, t_pdf b);
-
-
-//------------------------------------------------------------------------------
 //|                                 color.c                                    |
 //------------------------------------------------------------------------------
-
-typedef struct s_mis_data
-{
-	t_pdf	pdf_cosine;
-	t_pdf	pdf_light;
-	t_pdf	pdf_mix;
-	t_vec3	sample_d;
-	t_ray	ray_scattered;
-	double	pdf_sample_value;
-	double	pdf_bsdf_value;
-	t_vec3	radiance_child;
-	void	*chosen_light;
-}	t_mis_data;
 
 typedef struct s_trace_data
 {
@@ -332,8 +261,23 @@ typedef struct s_trace_data
 	t_vec3					atten;
 	t_ray					ray_next;
 	t_vec3					emission;
-	t_vec3					indirect_radiance;
 }	t_trace_data;
+
+int	rr_terminate(t_vec3 *atten);
+int	hit_anything(t_rt *rt, t_ray r, double tmax);
+int	shadow_blocked(t_rt *rt, t_vec3 p, t_vec3 to_l, double dist_l);
+t_vec3	ambient_term(t_rt *rt, const t_hit_record *rec);
+
+
+
+//------------------------------------------------------------------------------
+//|                                 lights.c                                    |
+//------------------------------------------------------------------------------
+
+t_point_light	*point_light_create(t_vec3 position, double intensity, t_vec3 color);
+void	point_light_add(t_point_light **lights, t_point_light *new_light);
+void	point_light_destroy(t_point_light **light);
+t_vec3	point_light_diffuse(t_rt *rt, const t_hit_record *rec, t_point_light *light);
 
 //------------------------------------------------------------------------------
 //|                                 sphere.c                                   |
@@ -389,11 +333,6 @@ t_material						*diffuse_light_create(t_vec3 albedo);
 
 void							material_destroy(t_material *m);
 
-//------------------------------------------------------------------------------
-//|                                 lights.c                                    |
-//------------------------------------------------------------------------------
-
-t_point_light	*point_light_create(t_vec3 position, t_vec3 intensity);
 
 //------------------------------------------------------------------------------
 //|                                 utils.c                                    |

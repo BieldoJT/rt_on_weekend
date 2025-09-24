@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:18:36 by natrodri          #+#    #+#             */
-/*   Updated: 2025/09/24 02:12:35 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:58:31 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	lambertian_scatter(const t_material *self, t_scatter_params *p)
 		return (0);
 	*(p->attenuation) = self->albedo;
 	p->is_specular = 0;
-	p->pdf = 1.0;
 	return (1);
 }
 
@@ -71,7 +70,6 @@ void	material_set_lambertian(t_material *mat, t_vec3 albedo)
 	if (!mat)
 		return ;
 	mat->scatter = &lambertian_scatter;
-	mat->scattering_pdf = &lambertian_scattering_pdf;
 	mat->albedo = albedo;
 	mat->fuzz = 0.2;
 	mat->refractive_index = 1.0;

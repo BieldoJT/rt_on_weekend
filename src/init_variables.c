@@ -6,19 +6,19 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/24 04:16:37 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:31:32 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "rt.h"
 
-void    set_ambient(t_rt *rt, double ratio, t_vec3 color)
-{
-    rt->ambient.ratio = ratio;
-    rt->ambient.color = color;
-}
-
 static void	create_world(t_rt *rt);
+
+void	set_ambient(t_rt *rt, double ratio, t_vec3 color)
+{
+	rt->ambient.ratio = ratio;
+	rt->ambient.color = color;
+}
 
 void	init_rt(t_rt *rt)
 {
@@ -41,8 +41,8 @@ void	init_rt(t_rt *rt)
 	rt->camera->count_samples = 0;
 	rt->camera->sample_per_pixel = 500;
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
-	rt->camera->max_depth = 20;
-	set_ambient(rt, 0.8, vec3(1.0, 1.0, 1.0));
+	rt->camera->max_depth = 40;
+	set_ambient(rt, 0.2, vec3(1.0, 1.0, 1.0));
 	create_world(rt);
 }
 
@@ -52,20 +52,18 @@ static void	create_world(t_rt *rt)
 	if (!rt->world)
 		return ;
 	rt->world[rt->world_size++] = sphere_create(vec3(0.0, -100.5, -1.0), 100.0,
-			lambertian_create(vec3(0.8, 0.2, 0.3)));
-	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.3, -1.2), 0.5,
+			lambertian_create(vec3(0.1, 0.1, 0.1)));
+	/*rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.3, -1.2), 0.5,
 			lambertian_create(vec3(1, 1, 1)));
-	/*rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.5, -1.2), 0.5,
-			metal_create(vec3(1, 1, 1), 0.01));*/
-	/*rt->world[rt->world_size++] = sphere_create(vec3(1.0, 0.0, -1.0), 0.5,
-			dielectric_create(2.8));*/
-	rt->n_lights = 2;
-rt->lights = malloc(sizeof(t_point_light *) * rt->n_lights);
-if (rt->lights)
-    rt->lights[0] = point_light_create(vec3(-2.0, 1.0, 0.0), vec3(0.0, 0.0, 255.0));
-	rt->lights[1] = point_light_create(vec3(2.0, 1.0, 0.0), vec3(0.0, 255.0, 0.0));
-	// rt->lights[1] = point_light_create(vec3(-2.5, 4.0, 0.5), vec3(50.0, 50.0, 250.0));
-	/*rt->n_lights = 1;
-	rt->lights = malloc(sizeof(t_point_light *) * rt->n_lights);
-	rt->lights[0] = point_light_create(vec3(-1.5, 4, 0.5), vec3(5, 5, 5));*/
+	rt->world[rt->world_size++] = sphere_create(vec3(-1.0, 0.5, -1.2), 0.5,
+			metal_create(vec3(25.0, 1.0, 1.0), 0.3));*/
+	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.1, -1.0), 0.3,
+			lambertian_create(vec3(60, 60, 60)));
+
+	//create lights
+	rt->lights = NULL;
+	point_light_add(&rt->lights, point_light_create(vec3(-1.0, 1.0, -.5),1, vec3(0.0, 0.0, 255.0)));
+	point_light_add(&rt->lights, point_light_create(vec3(1.0, 1.0, -0.5),1, vec3(0.0, 255.0, 0.0)));
+	point_light_add(&rt->lights, point_light_create(vec3(0.0, 1.0, -.8),1, vec3(255.0, 0.0, 0.0)));
 }
+//fazer lista encadeada para objetos e luzes

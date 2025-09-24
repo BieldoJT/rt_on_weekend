@@ -19,6 +19,7 @@ SRCS = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/mlx_usage.c \
 	$(SRC_DIR)/color.c \
+	$(SRC_DIR)/color_utils.c \
 	$(SRC_DIR)/ray.c \
 	$(SRC_DIR)/sphere.c \
 	$(SRC_DIR)/hittable.c \

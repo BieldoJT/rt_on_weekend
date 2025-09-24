@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   metal.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:18:39 by natrodri          #+#    #+#             */
-/*   Updated: 2025/09/17 10:26:05 by bieldojt         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:59:18 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,7 @@ static int	metal_scatter(const t_material *self, t_scatter_params *p)
 	*(p->scattered) = ray(p->rec->p, dir);
 	*(p->attenuation) = self->albedo;
 	p->is_specular = 1;
-	p->pdf = 0.0;
 	return (vec3_dot(dir, p->rec->normal) > 0.0);
-}
-
-static double	metal_scattering_pdf(const t_material *mat, const t_ray *r_in,
-				const t_hit_record *rec, t_vec3 *scattered)
-{
-	(void)mat;
-	(void)r_in;
-	(void)rec;
-	(void)scattered;
-	return (0.0);
 }
 
 void	material_set_metal(t_material *m, t_vec3 albedo, double fuzz)
@@ -54,7 +43,6 @@ void	material_set_metal(t_material *m, t_vec3 albedo, double fuzz)
 	if (!m)
 		return ;
 	m->scatter = &metal_scatter;
-	m->scattering_pdf = &metal_scattering_pdf;
 	m->albedo = albedo;
 	m->fuzz = (fuzz < 0.0) ? 0.0 : ((fuzz > 1.0) ? 1.0 : fuzz);
 	m->refractive_index = 1.0;

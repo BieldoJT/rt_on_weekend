@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dielectric.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:18:30 by natrodri          #+#    #+#             */
-/*   Updated: 2025/09/17 10:24:58 by bieldojt         ###   ########.fr       */
+/*   Updated: 2025/09/24 15:58:10 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	dielectric_scatter(const t_material *self, t_scatter_params *p)
 		return (0);
 	*(p->attenuation) = vec3(1.0, 1.0, 1.0);
 	p->is_specular = 1;
-	p->pdf = 0.0;
 	ref_ratio = p->rec->front_face ? (1.0 / self->refractive_index)
 		: self->refractive_index;
 	unit_dir = vec3_unit_vector(p->r_in->dir);
@@ -74,22 +73,12 @@ static int	dielectric_scatter(const t_material *self, t_scatter_params *p)
 	return (1);
 }
 
-static double	dielectric_scattering_pdf(const t_material *mat,
-				const t_ray *r_in, const t_hit_record *rec, t_vec3 *scattered)
-{
-	(void)mat;
-	(void)r_in;
-	(void)rec;
-	(void)scattered;
-	return (0.0);
-}
 
 void	material_set_dielectric(t_material *m, double refr_index)
 {
 	if (!m)
 		return ;
 	m->scatter = &dielectric_scatter;
-	m->scattering_pdf = &dielectric_scattering_pdf;
 	m->albedo = vec3(1.0, 1.0, 1.0);
 	m->fuzz = 0.0;
 	m->refractive_index = (refr_index <= 0.0) ? 1.0 : refr_index;
