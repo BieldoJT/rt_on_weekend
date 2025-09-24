@@ -278,10 +278,11 @@ t_vec3							sample_square(void);
 
 
 t_hittable	*plane_creat(t_vec3 point, t_vec3 normal, t_material *material);
-t_hittable *cylinder_create(t_vec3 center, t_vec3 axis, double radius, double height, t_material *mat);
+t_hittable	*cylinder_create(t_vec3 center, t_vec3 axis, double *ra_and_he, t_material *mat);
 int check_cap(t_cylinder *cyl, t_ray r, double t);
 int bhaskara(double *abc, double *t0, double *t1);
 void add_intersection(t_intersections *xs, double t);
+void	update_hit(int i, double *closest_t, int *hit_found, t_intersections xs);
 
 
 #endif

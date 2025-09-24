@@ -26,7 +26,7 @@ t_vec3	ray_color(t_ray r, t_rt *rt, int depth)
 	if (depth <= 0)
 		return (vec3(0, 0, 0));
 	if (!hit_world(r, &rec, rt))
-        return (rt->camera->background_color);
+		return (rt->camera->background_color);
 	if (!rec.material->scatter(rec.material, &params))
 		return (rec.material->color_emited);
 	return (vec3_add(rec.material->color_emited,
