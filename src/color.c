@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 21:13:40 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/24 15:59:06 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:40:55 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,17 @@ static t_vec3	get_radiance(t_rt *rt, t_trace_data *td, int depth)
 		lights = lights->next;
 	}
 	if (td->scatter_params.is_specular)
-		return vec3_add(amb, vec3_add(td->emission,
-			vec3_mult_vecs(td->atten, vec3_add(direct,
-					ray_color(td->ray_next, rt, depth - 1)))));
-	return vec3_add(amb, vec3_add(td->emission,
-			vec3_mult_vecs(td->atten, direct)));
+		return (vec3_add(amb, vec3_add(td->emission,
+					vec3_mult_vecs(td->atten, vec3_add(direct,
+							ray_color(td->ray_next, rt, depth - 1))))));
+	return (vec3_add(amb, vec3_add(td->emission,
+				vec3_mult_vecs(td->atten, direct))));
 }
 
 t_vec3	ray_color(t_ray r, t_rt *rt, int depth)
 {
 	t_trace_data	td;
-	t_vec3	indirect_radiance;
+	t_vec3			indirect_radiance;
 
 	td.scatter_params.r_in = &r;
 	td.scatter_params.rec = &td.hit;
@@ -45,14 +45,14 @@ t_vec3	ray_color(t_ray r, t_rt *rt, int depth)
 	td.scatter_params.scattered = &td.ray_next;
 	td.scatter_params.is_specular = 0;
 	if (depth <= 0)
-	return (vec3(0, 0, 0));
+		return (vec3(0, 0, 0));
 	if (!hit_world(r, &td.hit, rt))
-	return (vec3(0, 0, 0));
+		return (vec3(0, 0, 0));
 	td.emission = td.hit.material->color_emited;
 	if (!td.hit.material->scatter(td.hit.material, &td.scatter_params))
-	return (td.emission);
+		return (td.emission);
 	if (depth <= 5 && rr_terminate(&td.atten))
 		return (td.emission);
-	indirect_radiance = get_radiance(rt,&td,depth);
+	indirect_radiance = get_radiance(rt, &td, depth);
 	return (indirect_radiance);
 }

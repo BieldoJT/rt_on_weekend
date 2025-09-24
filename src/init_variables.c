@@ -6,7 +6,7 @@
 /*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/24 16:31:32 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:38:20 by gda-conc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,17 +53,18 @@ static void	create_world(t_rt *rt)
 		return ;
 	rt->world[rt->world_size++] = sphere_create(vec3(0.0, -100.5, -1.0), 100.0,
 			lambertian_create(vec3(0.1, 0.1, 0.1)));
-	/*rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.3, -1.2), 0.5,
+	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.3, -1.2), 0.5,
 			lambertian_create(vec3(1, 1, 1)));
 	rt->world[rt->world_size++] = sphere_create(vec3(-1.0, 0.5, -1.2), 0.5,
-			metal_create(vec3(25.0, 1.0, 1.0), 0.3));*/
+			metal_create(vec3(25.0, 1.0, 1.0), 0.3));
 	rt->world[rt->world_size++] = sphere_create(vec3(0.0, 0.1, -1.0), 0.3,
 			lambertian_create(vec3(60, 60, 60)));
-
-	//create lights
 	rt->lights = NULL;
-	point_light_add(&rt->lights, point_light_create(vec3(-1.0, 1.0, -.5),1, vec3(0.0, 0.0, 255.0)));
-	point_light_add(&rt->lights, point_light_create(vec3(1.0, 1.0, -0.5),1, vec3(0.0, 255.0, 0.0)));
-	point_light_add(&rt->lights, point_light_create(vec3(0.0, 1.0, -.8),1, vec3(255.0, 0.0, 0.0)));
+	point_light_add(&rt->lights, point_light_create(vec3(-1.0, 1.0, -.5),
+			1, vec3(0.0, 0.0, 255.0)));
+	point_light_add(&rt->lights, point_light_create(vec3(1.0, 1.0, -0.5),
+			1, vec3(0.0, 255.0, 0.0)));
+	point_light_add(&rt->lights, point_light_create(vec3(0.0, 1.0, -.8),
+			1, vec3(255.0, 0.0, 0.0)));
 }
 //fazer lista encadeada para objetos e luzes
