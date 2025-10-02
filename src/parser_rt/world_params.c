@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 16:57:17 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:24:36 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	creat_ambient(char *str, t_scene *scene, char *line, int fd)
 	if (i != 3)
 		bad(tok, scene, line, fd);
 	intens = ft_atof(tok[1]);
-	if (!(intens > 0.0 && intens < 1.0))
+	if (intens < 0.0 || intens > 1.0)
 		bad(tok, scene, line, fd);
 	scene->ambient.intensity = intens;
 	if (!convert_color(tok[2], scene->ambient.color))
@@ -80,7 +80,7 @@ void	parse_camera(char *str, t_scene *scene, char *line, int fd)
 			scene->camera.orientation))
 		bad(tok, scene, line, fd);
 	fov = ft_atof(tok[3]);
-	if (!(fov > 0.0 && fov < 180.0))
+	if (!(fov >= 0.0 && fov <= 180.0))
 		bad(tok, scene, line, fd);
 	scene->camera.fov = fov;
 	free_split(tok);
@@ -90,6 +90,7 @@ void	parse_light(char *str, t_scene *scene, char *line, int fd)
 {
 	char		**tok;
 	t_prs_light	*light;
+	double		intens;
 	int			i;
 
 	tok = ft_split(str, ' ');
@@ -107,7 +108,10 @@ void	parse_light(char *str, t_scene *scene, char *line, int fd)
 		free(light);
 		bad(tok, scene, line, fd);
 	}
-	light->intensity = ft_atof(tok[2]);
+	intens = ft_atof(tok[2]);
+	if (intens < 0.0 || intens > 1.0)
+		bad(tok, scene, line, fd);
+	scene->ambient.intensity = intens;
 	light->next = scene->lights;
 	scene->lights = light;
 	free_split(tok);

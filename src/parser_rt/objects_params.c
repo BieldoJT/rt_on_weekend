@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 13:15:15 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/02 17:36:44 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 {
 	char			**tok;
 	t_prs_sphere	*sp;
+	double			diameter;
 	int				i;
 
 	tok = ft_split(str, ' ');
@@ -63,7 +64,10 @@ void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 		bad(tok, scene, line, fd);
 	}
 	add_mat(tok[i - 1], &sp->mat);
-	sp->radius = ft_atof(tok[2]) / 2.0;
+	diameter = ft_atof(tok[2]);
+	if (diameter < 0.0)
+		bad(tok, scene, line, fd);
+	sp->radius = diameter / 2.0;
 	sp->next = scene->spheres;
 	scene->spheres = sp;
 	free_split(tok);
@@ -83,6 +87,8 @@ void	parse_plane(char *str, t_scene *scene, char *line, int fd)
 		bad(tok, scene, line, fd);
 	pl = malloc(sizeof(t_prs_plane));
 	if (!pl)
+		bad(tok, scene, line, fd);
+	if (!verify_normalize(tok[2]))
 		bad(tok, scene, line, fd);
 	if (!convert_vec(tok[1], pl->pos) || !convert_vec(tok[2],
 			pl->orientation) || !convert_color(tok[3], pl->color))
@@ -119,6 +125,8 @@ void	parse_cylinder(char *str, t_scene *scene, char *line, int fd)
 		bad(tok, scene, line, fd);
 	}
 	add_mat(tok[i], &cy->mat);
+	if (ft_atof(tok[3]) < 0.0 || ft_atof(tok[4]) < 0.0)
+		bad(tok, scene, line, fd);
 	cy->radius = ft_atof(tok[3]) / 2.0;
 	cy->height = ft_atof(tok[4]);
 	cy->next = scene->cylinders;
