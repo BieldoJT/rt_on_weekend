@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 13:11:19 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:15:15 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,6 @@ void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 	sp->next = scene->spheres;
 	scene->spheres = sp;
 	free_split(tok);
-	printf("Sphere pos: %f %f %f\n", sp->pos[0], sp->pos[1], sp->pos[2]);
-printf("Sphere radius: %f\n", sp->radius);
-printf("Sphere color: %d %d %d\n", sp->color[0], sp->color[1], sp->color[2]);
-printf("Sphere material: %c param: %f\n", sp->mat.material, sp->mat.param);
-
 }
 
 void	parse_plane(char *str, t_scene *scene, char *line, int fd)
@@ -123,7 +118,6 @@ void	parse_cylinder(char *str, t_scene *scene, char *line, int fd)
 		free(cy);
 		bad(tok, scene, line, fd);
 	}
-	cy->mat.material = 0;
 	add_mat(tok[i], &cy->mat);
 	cy->radius = ft_atof(tok[3]) / 2.0;
 	cy->height = ft_atof(tok[4]);

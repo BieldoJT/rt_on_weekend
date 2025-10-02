@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:10:51 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/02 13:19:06 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,24 @@ int	verify_file(char *file)
 	return (fd);
 }
 
+void	set_prefix(char *str, t_scene *scene, int fd, int *i)
+{
+	if (str[*i] == 'A')
+		creat_ambient(&str[*i], scene, str, fd);
+	else if (str[*i] == 'C')
+		parse_camera(&str[*i], scene, str, fd);
+	else if (str[*i] == 'L')
+		parse_light(&str[*i], scene, str, fd);
+	else if (str[*i] == 's' && str[*i + 1] == 'p')
+		parse_sphere(&str[*i], scene, str, fd);
+	else if (str[*i] == 'p' && str[*i + 1] == 'l')
+		parse_plane(&str[*i], scene, str, fd);
+	else if (str[*i] == 'c' && str[*i + 1] == 'y')
+		parse_cylinder(&str[*i], scene, str, fd);
+	else
+		bad(NULL, scene, str, fd);
+}
+
 void	read_file(int fd, t_scene *scene)
 {
 	int		i;
@@ -54,22 +72,7 @@ void	read_file(int fd, t_scene *scene)
 			continue ;
 		}
 		if (str[i] >= 32 && str[i] <= 126)
-		{
-			if (str[i] == 'A')
-				creat_ambient(&str[i], scene, str, fd);
-			else if (str[i] == 'C')
-				parse_camera(&str[i], scene, str, fd);
-			else if (str[i] == 'L')
-				parse_light(&str[i], scene, str, fd);
-			else if (str[i] == 's' && str[i + 1] == 'p')
-				parse_sphere(&str[i], scene, str, fd);
-			else if (str[i] == 'p' && str[i + 1] == 'l')
-				parse_plane(&str[i], scene, str, fd);
-			else if (str[i] == 'c' && str[i + 1] == 'y')
-				parse_cylinder(&str[i], scene, str, fd);
-			else
-				bad(NULL, scene, str, fd);
-		}
+			set_prefix(str, scene, fd, &i);
 		free(str);
 		str = get_next_line(fd);
 	}

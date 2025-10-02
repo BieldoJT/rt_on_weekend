@@ -12,26 +12,21 @@
 
 #include "../rt.h"
 
-t_material *choose_material(t_obj_param *mat, int *color)
+t_material	*choose_material(t_obj_param *mat, int *color)
 {
-	t_vec3 col = vec3(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0);
+	t_vec3		col;
+	t_material	*mat_ptr;
 
-	t_material *mat_ptr = NULL;
+	col = vec3(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0);
+	mat_ptr = NULL;
 	if (mat->material == 'm')
 		mat_ptr = metal_create(col, mat->param);
 	else if (mat->material == 'd')
 		mat_ptr = dielectric_create(mat->param);
 	else
 		mat_ptr = lambertian_create(col);
-
-	if (!mat_ptr)
-		printf("⚠️ Falha ao criar material\n");
-	else
-		printf("✅ Material criado: %c\n", mat->material);
-
-	return mat_ptr;
+	return (mat_ptr);
 }
-
 
 void	add_sphere(t_prs_sphere *sph, t_rt *rt)
 {
