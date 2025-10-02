@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:19:28 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 13:26:03 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:58:29 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,8 @@ void	free_cylinders(t_prs_cylinder *cy);
 void	all_free(t_scene *scene);
 void	parser_rt(char *file, t_scene *scene);
 void	bad(char **tok, t_scene *scene, char *line, int fd);
+int		set_color(char **tok, int *color);
+int		check_commas(char *str);
+int		vf_float(const char *str);
 
 #endif
