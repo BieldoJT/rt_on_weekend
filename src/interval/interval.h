@@ -21,20 +21,20 @@ typedef struct s_interval
 	double	max;
 }	t_interval;
 
+/* versões "constantes" dos intervalos especiais */
+t_interval	interval_empty(void);
+t_interval	interval_universe(void);
 /* inicializa intervalo vazio */
-void	interval_init_empty(t_interval *i);
+void		interval_init_empty(t_interval *i);
 /* inicializa com limites */
-void	interval_init(t_interval *i, double min, double max);
+void		interval_init(t_interval *i, double min, double max);
 /* tamanho (max - min) */
-double	interval_size(const t_interval *i);
+double		interval_size(const t_interval *i);
 /* testa se x está em [min, max] */
-int		interval_contains(const t_interval *i, double x);
+int			interval_contains(const t_interval *i, double x);
 /* testa se x está em (min, max) */
-int		interval_surrounds(const t_interval *i, double x);
-double	interval_clamp(const t_interval *i, double x);
-void expand_interval(t_interval *interval ,double delta);
-
-extern const t_interval	g_interval_empty;
-extern const t_interval	g_interval_universe;
+int			interval_surrounds(const t_interval *i, double x);
+double		interval_clamp(const t_interval *i, double x);
+void		expand_interval(t_interval *interval, double delta);
 
 #endif

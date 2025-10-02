@@ -1,5 +1,16 @@
-#include "parser.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
+/*   Updated: 2025/07/18 18:10:51 by natrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "parser.h"
 
 int	check_commas(char *str)
 {
@@ -19,58 +30,56 @@ int	check_commas(char *str)
 	return (1);
 }
 
-int convert_vec(char *str, double *vec)
+int	convert_vec(char *str, double *vec)
 {
-    char **tok;
-    int i;
+	char	**tok;
+	int		i;
 
-    if (!check_commas(str))
+	if (!check_commas(str))
 		return (printf("vetor invalido paizao\n"), 0);
-    tok = ft_split(str, ',');
-    i = 0;
-    while (tok[i])
-        i++;
-    if (i != 3)
-    {
-        free_split(tok);
-        return (printf("vetor invalido paizao\n"), 0);
-    }
-    vec[0] = ft_atof(tok[0]);
-    vec[1] = ft_atof(tok[1]);
-    vec[2] = ft_atof(tok[2]);
-    free_split(tok);
-    return (1);
+	tok = ft_split(str, ',');
+	i = 0;
+	while (tok[i])
+		i++;
+	if (i != 3)
+	{
+		free_split(tok);
+		return (printf("vetor invalido paizao\n"), 0);
+	}
+	vec[0] = ft_atof(tok[0]);
+	vec[1] = ft_atof(tok[1]);
+	vec[2] = ft_atof(tok[2]);
+	free_split(tok);
+	return (1);
 }
-
 
 int	convert_color(char *str, int *color)
 {
 	char	**tok;
 	int		i;
 
-    if (!check_commas(str))
+	if (!check_commas(str))
 		return (printf("cor invalida paizao\n"), 0);
-    tok = ft_split(str, ',');
+	tok = ft_split(str, ',');
 	i = 0;
 	while (tok[i])
 		i++;
 	if (i != 3)
-    {
-        free_split(tok);
+	{
+		free_split(tok);
 		return (printf("cor invalida paizao\n"), 0);
-    }
+	}
 	color[0] = ft_atoi(tok[0]);
 	color[1] = ft_atoi(tok[1]);
 	color[2] = ft_atoi(tok[2]);
 	free_split(tok);
-    return (1);
+	return (1);
 }
 
 void	all_free(t_scene *scene)
 {
 	free_spheres(scene->spheres);
-    free_planes(scene->planes);
-    free_lights(scene->lights);
+	free_planes(scene->planes);
+	free_lights(scene->lights);
 	free_cylinders(scene->cylinders);
 }
-

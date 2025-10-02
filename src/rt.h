@@ -258,6 +258,18 @@ void							init_rt(t_rt *rt, t_scene *scene);
 void	render_rt(t_rt *rt, t_scene *scene); // no anti-aliasing
 t_vec3							ray_color(t_ray r, t_rt *rt, int depth);
 
+typedef struct s_job
+{
+        t_rt    *rt;
+        int             y0;
+        int             y1;
+}       t_job;
+
+double	linear_to_gamma(double x);
+int	rgb_to_int(int r, int g, int b);
+double	degree_to_radian(double degree);
+
+
 //------------------------------------------------------------------------------
 //|                                  mlx.c                                     |
 //------------------------------------------------------------------------------
@@ -365,6 +377,10 @@ typedef struct s_trace_data
 	t_vec3					indirect_radiance;
 }	t_trace_data;
 
+t_vec3	ambient_term(t_rt *rt, const t_hit_record *rec);
+int	rr_terminate(t_vec3 *atten);
+t_vec3	point_light_diffuse(t_rt *rt, const t_hit_record *rec, int i);
+
 //------------------------------------------------------------------------------
 //|                                 sphere.c                                   |
 //------------------------------------------------------------------------------
@@ -396,7 +412,7 @@ t_vec3	sphere_random_dir_to(void *sp, t_vec3 origin);
 t_material						*lambertian_create(t_vec3 albedo);
 double	lambertian_scattering_pdf(const t_material *mat, const t_ray *r_in,
 			const t_hit_record *rec, t_vec3 *scattered);
-t_vec3	lambertian_emitted(const t_material *mat, const t_hit_record *rec, double u, double v, t_vec3 p);
+t_vec3	lambertian_emitted(const t_material *mat, const t_hit_record *rec, double *u_v, t_vec3 p);
 void	material_set_lambertian(t_material *mat, t_vec3 albedo);
 
 //------------------------------------METAL------------------------------------//
@@ -410,6 +426,9 @@ t_material						*dielectric_create(double refractive_index);
 //double	dielectric_scattering_pdf(const t_material *mat, const t_ray *r_in, const t_hit_record *rec, const t_ray *scattered);
 //t_vec3	dielectric_emitted(const t_material *mat, const t_hit_record *rec, double u, double v, t_vec3 p);
 void	material_set_dielectric(t_material *mat, double refractive_index);
+t_vec3	reflect(t_vec3 v, t_vec3 n);
+t_vec3	refract(t_vec3 uv, t_vec3 n, double etai_over_etat);
+double	reflectance(double cosine, double ref_idx);
 
 //--------------------------------DIFFUSE LIGHT-------------------------------//
 t_material						*diffuse_light_create(t_vec3 albedo);
@@ -453,5 +472,22 @@ void	update_hit(int i, double *closest_t, int *hit_found, t_intersections xs);
 //------------------------------------------------------------------------------
 
 t_hittable	*plane_creat(t_vec3 point, t_vec3 norma, t_material *material);
+
+
+
+
+
+void	add_sphere(t_prs_sphere *sph, t_rt *rt);
+void	add_plane(t_prs_plane *pl, t_rt *rt);
+void	add_cylinder(t_prs_cylinder *cyl, t_rt *rt);
+void	add_lights(t_prs_light *lt, t_rt *rt);
+
+
+
+//------------------------------------------------------------------------------
+//|                                 re.c                                    |
+//------------------------------------------------------------------------------
+double	linear_to_gamma(double x);
+
 
 #endif

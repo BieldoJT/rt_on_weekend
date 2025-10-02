@@ -18,13 +18,13 @@ void	add_checkerboard(t_hit_record *rec)
 	int		x;
 	int		z;
 
-    square_size = 1.0;
-    x = floor(rec->p.x / square_size);
-    z = floor(rec->p.z / square_size);
-    if ((x + z) % 2 == 0)
-       	rec->material->albedo = vec3(1.0, 1.0, 1.0);
-   	else
-        rec->material->albedo = vec3(0.0, 0.0, 0.0);
+	square_size = 1.0;
+	x = floor(rec->p.x / square_size);
+	z = floor(rec->p.z / square_size);
+	if ((x + z) % 2 == 0)
+		rec->material->albedo = vec3(1.0, 1.0, 1.0);
+	else
+		rec->material->albedo = vec3(0.0, 0.0, 0.0);
 }
 
 int	plane_hit(void *obj, t_ray r, t_interval t_range, t_hit_record *rec)

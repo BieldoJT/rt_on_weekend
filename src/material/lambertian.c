@@ -50,12 +50,12 @@ double	lambertian_scattering_pdf(const t_material *mat, const t_ray *r_in,
 ** (mantemos para conveniência, já que seu t_material não tem emitted_fn)
 */
 t_vec3	lambertian_emitted(const t_material *mat, const t_hit_record *rec,
-			double u, double v, t_vec3 p)
+			double *u_v, t_vec3 p)
 {
 	(void)mat;
 	(void)rec;
-	(void)u;
-	(void)v;
+	(void)u_v[0];
+	(void)u_v[1];
 	(void)p;
 	return (vec3(0.0, 0.0, 0.0));
 }
@@ -77,8 +77,6 @@ void	material_set_lambertian(t_material *mat, t_vec3 albedo)
 	mat->refractive_index = 1.0;
 	mat->color_emited = vec3(0.0, 0.0, 0.0);
 }
-
-
 /* -------- (opcional) se você usa padrão create/aloca ---------- */
 
 t_material	*lambertian_create(t_vec3 albedo)

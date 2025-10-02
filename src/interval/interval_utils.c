@@ -12,6 +12,24 @@
 
 #include "interval.h"
 
+t_interval	interval_empty(void)
+{
+	t_interval	i;
+
+	i.min = INFINITY;
+	i.max = -INFINITY;
+	return (i);
+}
+
+t_interval	interval_universe(void)
+{
+	t_interval	i;
+
+	i.min = -INFINITY;
+	i.max = INFINITY;
+	return (i);
+}
+
 int	interval_contains(const t_interval *i, double x)
 {
 	return (i->min <= x && x <= i->max);

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lights.c                                           :+:      :+:    :+:   */
+/*   render_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,16 +10,24 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "../rt.h"
 
-t_point_light	*point_light_create(t_vec3 position, t_vec3 intensity)
+double	degree_to_radian(double degree)
 {
-	t_point_light	*light;
+	double	pi;
 
-	light = malloc(sizeof(t_point_light));
-	if (!light)
-		return (NULL);
-	light->position = position;
-	light->intensity = intensity;
-	return (light);
+	pi = 3.1415926535897932385;
+	return (degree * (pi / 180.0));
+}
+
+int	rgb_to_int(int r, int g, int b)
+{
+	return ((r << 16) | (g << 8) | b);
+}
+
+double	linear_to_gamma(double x)
+{
+	if (x > 0)
+		return (sqrt(x));
+	return (0.0);
 }

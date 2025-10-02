@@ -13,11 +13,6 @@
 #include "../rt.h"
 #include "../ray.h"
 
-static t_vec3	reflect(t_vec3 v, t_vec3 n)
-{
-	return (vec3_sub(v, vec3_mul(n, 2.0 * vec3_dot(v, n))));
-}
-
 static int	metal_scatter(const t_material *self, t_scatter_params *p)
 {
 	t_vec3	unit_in;
@@ -56,7 +51,12 @@ void	material_set_metal(t_material *m, t_vec3 albedo, double fuzz)
 	m->scatter = &metal_scatter;
 	m->scattering_pdf = &metal_scattering_pdf;
 	m->albedo = albedo;
-	m->fuzz = (fuzz < 0.0) ? 0.0 : ((fuzz > 1.0) ? 1.0 : fuzz);
+	if (fuzz < 0.0)
+		m->fuzz = 0.0;
+	else if (fuzz > 1.0)
+		m->fuzz = 1.0;
+	else
+		m->fuzz = fuzz;
 	m->refractive_index = 1.0;
 	m->color_emited = vec3(0.0, 0.0, 0.0);
 }

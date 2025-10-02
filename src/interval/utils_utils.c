@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*   interval_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -10,41 +10,34 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "interval.h"
 
-void	init(int *i, double *int_part, double *frac_part, double *divisor)
+t_interval	interval_empty(void)
 {
-	*i = 0;
-	*int_part = 0;
-	*frac_part = 0;
-	*divisor = 1;
+	t_interval	i;
+
+	i.min = INFINITY;
+	i.max = -INFINITY;
+	return (i);
 }
 
-double	ft_atof(char *str)
+t_interval	interval_universe(void)
 {
-	int		i;
-	int		sig;
-	double	int_part;
-	double	divisor;
-	double	frac_part;
+	t_interval	i;
 
-	sig = 1;
-	init(&i, &int_part, &frac_part, &divisor);
-	while (str[i] == ' ' || (str[i] >= 9 && str[i] <= 13))
-		i++;
-	if (str[i] == '-' || str[i] == '+')
-		if (str[i++] == '-')
-			sig = -1;
-	while (str[i] >= '0' && str[i] <= '9')
-		int_part = int_part * 10 + (str[i++] - '0');
-	if (str[i] == '.')
-	{
-		i++;
-		while (str[i] >= '0' && str[i] <= '9')
-		{
-			frac_part = frac_part * 10 + (str[i++] - '0');
-			divisor *= 10;
-		}
-	}
-	return (sig * (int_part + frac_part / divisor));
+	i.min = -INFINITY;
+	i.max = INFINITY;
+	return (i);
+}
+
+void	interval_init_empty(t_interval *i)
+{
+	i->min = INFINITY;
+	i->max = -INFINITY;
+}
+
+void	interval_init(t_interval *i, double min, double max)
+{
+	i->min = min;
+	i->max = max;
 }

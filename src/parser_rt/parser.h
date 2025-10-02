@@ -81,5 +81,6 @@ void parse_cylinder(char *str, t_scene *scene, char *line, int fd);
 void	free_cylinders(t_prs_cylinder *cy);
 void	all_free(t_scene *scene);
 void parser_rt(char *file, t_scene *scene);
+void	bad(char **tok, t_scene *scene, char *line, int fd);
 
 #endif
