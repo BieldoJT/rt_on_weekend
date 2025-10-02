@@ -19,20 +19,24 @@ LIBVEC3 = $(SRC_DIR)/vec3/libvec3.a
 SRCS = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/mlx_usage.c \
-	$(SRC_DIR)/color.c \
+	$(SRC_DIR)/color/color.c \
+	$(SRC_DIR)/color/ray_color.c \
 	$(SRC_DIR)/ray.c \
 	$(SRC_DIR)/sphere.c \
 	$(SRC_DIR)/hittable.c \
 	$(MAT_DIR)dielectric.c \
+	$(MAT_DIR)dielectric_utils.c \
 	$(MAT_DIR)lambertian.c \
 	$(MAT_DIR)metal.c \
 	$(CAM_DIR)camera.c \
 	$(CAM_DIR)camera_utils.c \
-	$(SRC_DIR)/init_variables.c \
+	$(SRC_DIR)/init/init_variables.c \
+	$(SRC_DIR)/init/init_utils.c \
 	$(INTER_DIR)interval.c \
 	$(INTER_DIR)interval_utils.c \
 	$(SRC_DIR)/lights.c \
-	$(SRC_DIR)/render.c \
+	$(SRC_DIR)/render/render.c \
+	$(SRC_DIR)/render/render_utils.c \
 	$(CYL_DIR)cylinder.c \
 	$(CYL_DIR)utils_cyld.c \
 	$(SRC_DIR)/plane.c \

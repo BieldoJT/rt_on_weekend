@@ -29,11 +29,18 @@ typedef struct s_prs_light
     struct s_prs_light *next;
 } t_prs_light;
 
+typedef struct	s_obj_param
+{
+	char material;
+	double param;
+}	t_obj_param;
+
 typedef struct s_prs_sphere
 {
     double pos[3];
     double radius;
     int color[3];
+	t_obj_param	mat;
     struct s_prs_sphere *next;
 } t_prs_sphere;
 
@@ -42,6 +49,7 @@ typedef struct s_prs_plane
     double pos[3];
     double orientation[3];
     int color[3];
+	t_obj_param	mat;
     struct s_prs_plane *next;
 } t_prs_plane;
 
@@ -52,6 +60,7 @@ typedef struct s_prs_cylinder
     double radius;
     double height;
     int color[3];
+	t_obj_param	mat;
     struct s_prs_cylinder *next;
 } t_prs_cylinder;
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   dielectric.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:18:30 by natrodri          #+#    #+#             */
-/*   Updated: 2025/09/17 10:24:58 by bieldojt         ###   ########.fr       */
+/*   Updated: 2025/10/02 11:49:24 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ static t_vec3	get_scatter_dir(t_vec3 unit_dir, const t_hit_record *rec,
 	double	sin_th;
 	int		cannot_refract;
 	int		reflect_choose;
+	int		tmp;
 
 	sin_th = sqrt(fmax(0.0, 1.0 - cos_th * cos_th));
 	cannot_refract = ref_ratio * sin_th > 1.0;
-	reflect_choose = cannot_refract
-		|| reflectance(cos_th, ref_ratio) > random_double();
+	tmp = reflectance(cos_th, ref_ratio);
+	reflect_choose = (cannot_refract || tmp > random_double());
 	if (reflect_choose)
 		return (reflect(unit_dir, rec->normal));
 	return (refract(unit_dir, rec->normal, ref_ratio));

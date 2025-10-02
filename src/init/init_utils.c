@@ -12,18 +12,34 @@
 
 #include "../rt.h"
 
+t_material *choose_material(t_obj_param *mat, int *color)
+{
+	t_vec3 col = vec3(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0);
+
+	t_material *mat_ptr = NULL;
+	if (mat->material == 'm')
+		mat_ptr = metal_create(col, mat->param);
+	else if (mat->material == 'd')
+		mat_ptr = dielectric_create(mat->param);
+	else
+		mat_ptr = lambertian_create(col);
+
+	if (!mat_ptr)
+		printf("⚠️ Falha ao criar material\n");
+	else
+		printf("✅ Material criado: %c\n", mat->material);
+
+	return mat_ptr;
+}
+
+
 void	add_sphere(t_prs_sphere *sph, t_rt *rt)
 {
 	while (sph)
 	{
 		rt->world[rt->world_size++] = sphere_create(
 				vec3(sph->pos[0], sph->pos[1], sph->pos[2]),
-				sph->radius,
-				lambertian_create(vec3(
-						sph->color[0] / 255.0,
-						sph->color[1] / 255.0,
-						sph->color[2] / 255.0))
-				);
+				sph->radius, choose_material(&sph->mat, sph->color));
 		sph = sph->next;
 	}
 }
@@ -35,11 +51,7 @@ void	add_plane(t_prs_plane *pl, t_rt *rt)
 		rt->world[rt->world_size++] = plane_creat(
 				vec3(pl->pos[0], pl->pos[1], pl->pos[2]),
 				vec3(pl->orientation[0], pl->orientation[1],
-					pl->orientation[2]),
-				lambertian_create(vec3(
-						pl->color[0] / 255.0,
-						pl->color[1] / 255.0,
-						pl->color[2] / 255.0))
+					pl->orientation[2]), choose_material(&pl->mat, pl->color)
 				);
 		pl = pl->next;
 	}
@@ -57,11 +69,7 @@ void	add_cylinder(t_prs_cylinder *cyl, t_rt *rt)
 				vec3(cyl->pos[0], cyl->pos[1], cyl->pos[2]),
 				vec3(cyl->orientation[0], cyl->orientation[1],
 					cyl->orientation[2]),
-				ra_and_he,
-				lambertian_create(vec3(
-						cyl->color[0] / 255.0,
-						cyl->color[1] / 255.0,
-						cyl->color[2] / 255.0))
+				ra_and_he, choose_material(&cyl->mat, cyl->color)
 				);
 		cyl = cyl->next;
 	}
