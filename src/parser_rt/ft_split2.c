@@ -6,13 +6,13 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:22:18 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 13:22:44 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:36:52 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-int		char_is_separator(char c, char *charset)
+int	char_is_separator(char c, char *charset)
 {
 	int	i;
 
@@ -28,7 +28,7 @@ int		char_is_separator(char c, char *charset)
 	return (0);
 }
 
-int		count_words(char *str, char *charset)
+int	count_words(char *str, char *charset)
 {
 	int	i;
 	int	words;
@@ -38,7 +38,7 @@ int		count_words(char *str, char *charset)
 	while (str[i] != '\0')
 	{
 		if (char_is_separator(str[i + 1], charset) == 1
-				&& char_is_separator(str[i], charset) == 0)
+			&& char_is_separator(str[i], charset) == 0)
 			words++;
 		i++;
 	}
@@ -75,7 +75,7 @@ void	write_split(char **split, char *str, char *charset)
 			j = 0;
 			while (char_is_separator(str[i + j], charset) == 0)
 				j++;
-			split[word] = (char*)malloc(sizeof(char) * (j + 1));
+			split[word] = (char *)malloc(sizeof(char) * (j + 1));
 			write_word(split[word], str + i, charset);
 			i += j;
 			word++;
@@ -89,7 +89,7 @@ char	**ft_split2(char *str, char *charset)
 	int		words;
 
 	words = count_words(str, charset);
-	res = (char**)malloc(sizeof(char*) * (words + 1));
+	res = (char **)malloc(sizeof(char *) * (words + 1));
 	res[words] = 0;
 	write_split(res, str, charset);
 	return (res);
