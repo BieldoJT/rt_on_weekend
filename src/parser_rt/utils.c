@@ -6,64 +6,11 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 16:38:19 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:13:02 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
-
-
-int	vf_float(const char *str)
-{
-    int i = 0;
-    int has_dot = 0;
-    int has_digit = 0;
-
-    if (str[i] == '-' || str[i] == '+')
-        i++;
-    while (str[i])
-    {
-        if (ft_isdigit(str[i]))
-            has_digit = 1;
-        else if (str[i] == '.')
-        {
-            if (has_dot)
-                return (0);
-            has_dot = 1;
-        }
-        else
-            return (0);
-        i++;
-    }
-    return (has_digit);
-}
-
-int	vf_color(char *str)
-{
-	int		i = 0;
-	double	value;
-
-	if (!str || !*str)
-		return (0);
-	if (!vf_float(str))
-		return (0);
-	value = ft_atof(str);
-	if (value < 0.0 || value > 255.0)
-		return (0);
-	while (str[i] && str[i] != '.')
-		i++;
-	if (str[i] == '.')
-	{
-		i++;
-		while (str[i])
-		{
-			if (str[i] != '0')
-				return (0);
-			i++;
-		}
-	}
-	return (1);
-}
 
 int	set_color(char **tok, int *color)
 {
@@ -87,7 +34,6 @@ int	set_color(char **tok, int *color)
 	}
 	return (1);
 }
-
 
 int	check_commas(char *str)
 {
@@ -136,7 +82,7 @@ int	convert_color(char *str, int *color)
 {
 	char	**tok;
 	int		i;
-	
+
 	if (!check_commas(str))
 		return (printf("cor invalida paizao\n"), 0);
 	tok = ft_split(str, ',');

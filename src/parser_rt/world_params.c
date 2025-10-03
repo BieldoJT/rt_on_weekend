@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 17:24:36 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:25:39 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	creat_ambient(char *str, t_scene *scene, char *line, int fd)
 	double	intens;
 	int		i;
 
-	tok = ft_split(str, ' ');
+	tok = ft_split2(str, "\t ");
 	i = 0;
 	while (tok[i])
 		i++;
@@ -68,7 +68,7 @@ void	parse_camera(char *str, t_scene *scene, char *line, int fd)
 	double	fov;
 	int		i;
 
-	tok = ft_split(str, ' ');
+	tok = ft_split2(str, "\t ");
 	i = 0;
 	while (tok[i])
 		i++;
@@ -90,10 +90,9 @@ void	parse_light(char *str, t_scene *scene, char *line, int fd)
 {
 	char		**tok;
 	t_prs_light	*light;
-	double		intens;
 	int			i;
 
-	tok = ft_split(str, ' ');
+	tok = ft_split2(str, "\t ");
 	i = 0;
 	while (tok[i])
 		i++;
@@ -108,10 +107,9 @@ void	parse_light(char *str, t_scene *scene, char *line, int fd)
 		free(light);
 		bad(tok, scene, line, fd);
 	}
-	intens = ft_atof(tok[2]);
-	if (intens < 0.0 || intens > 1.0)
+	if (ft_atof(tok[2]) < 0.0 || ft_atof(tok[2]) > 1.0)
 		bad(tok, scene, line, fd);
-	scene->ambient.intensity = intens;
+	scene->ambient.intensity = ft_atof(tok[2]);
 	light->next = scene->lights;
 	scene->lights = light;
 	free_split(tok);

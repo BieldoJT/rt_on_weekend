@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:19:28 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 17:31:12 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:22:54 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,8 @@ void	bad(char **tok, t_scene *scene, char *line, int fd);
 int		set_color(char **tok, int *color);
 int		check_commas(char *str);
 int		vf_float(const char *str);
+int		vf_color(char *str);
 int		verify_normalize(char *str);
+char	**ft_split2(char *str, char *charset);
 
 #endif

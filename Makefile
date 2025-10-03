@@ -42,8 +42,10 @@ SRCS = \
 	$(SRC_DIR)/plane.c \
 	$(PARSER_DIR)free.c \
 	$(PARSER_DIR)ft_atof.c \
+	$(PARSER_DIR)ft_split2.c \
 	$(PARSER_DIR)parser.c \
 	$(PARSER_DIR)utils.c \
+	$(PARSER_DIR)vf_utils.c \
 	$(PARSER_DIR)world_params.c \
 	$(PARSER_DIR)objects_params.c \
 	$(PARSER_DIR)gnl/get_next_line.c \
