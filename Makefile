@@ -20,6 +20,7 @@ LIBVEC3 = $(SRC_DIR)/vec3/libvec3.a
 SRCS = \
 	$(SRC_DIR)/main.c \
 	$(SRC_DIR)/mlx_usage.c \
+	$(SRC_DIR)/mlx_usage_utils.c \
 	$(SRC_DIR)/color/color.c \
 	$(SRC_DIR)/color/ray_color.c \
 	$(SRC_DIR)/ray.c \

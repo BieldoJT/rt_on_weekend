@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/26 17:16:33 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:44:05 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,22 @@ double	linear_to_gamma(double x)
 	if (x > 0)
 		return (sqrt(x));
 	return (0.0);
+}
+
+void int_to_img(t_rt *rt)
+{
+	int j;
+	int i;
+
+	j = 0;
+	while (j < rt->image_height)
+	{
+		i = 0;
+		while (i < rt->image_width)
+		{
+			my_mlx_pixel_put(rt->mlx, i, j, rt->image_index[j][i]);
+			i++;
+		}
+		j++;
+	}
 }

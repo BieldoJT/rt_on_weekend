@@ -6,13 +6,13 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 15:04:44 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:23:17 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parser.h"
 
-void	add_mat(char *mat_tok, t_obj_param *object)
+void	add_mat(char *mat_tok, t_obj_param *object, char obj_type)
 {
 	if (!mat_tok)
 		return ;
@@ -20,6 +20,11 @@ void	add_mat(char *mat_tok, t_obj_param *object)
 	{
 		object->material = mat_tok[0];
 		object->param = ft_atof(mat_tok + 1);
+	}
+	else if (obj_type == 'p' && mat_tok[0] == 'c')
+	{
+		object->material = 'c';
+		object->param = 0.0;
 	}
 	else
 	{
@@ -48,7 +53,7 @@ void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 		bad(tok, scene, line, fd);
 		free(sp);
 	}
-	add_mat(tok[i - 1], &sp->mat);
+	add_mat(tok[i - 1], &sp->mat, '\0');
 	if (ft_atof(tok[2]) < 0.0)
 		bad(tok, scene, line, fd);
 	sp->radius = ft_atof(tok[2]) / 2.0;
@@ -80,7 +85,11 @@ void	parse_plane(char *str, t_scene *scene, char *line, int fd)
 		free(pl);
 		bad(tok, scene, line, fd);
 	}
-	add_mat(tok[i - 1], &pl->mat);
+	add_mat(tok[i - 1], &pl->mat, 'p');
+	if (pl->mat.material == 'c')
+		pl->is_checkred = 1;
+	else
+		pl->is_checkred = 0;
 	pl->next = scene->planes;
 	scene->planes = pl;
 	free_split(tok);
@@ -115,7 +124,7 @@ void	parse_cylinder(char *str, t_scene *scene, char *line, int fd)
 		free(cy);
 		bad(tok, scene, line, fd);
 	}
-	add_mat(tok[i - 1], &cy->mat);
+	add_mat(tok[i - 1], &cy->mat, '\0');
 	if (ft_atof(tok[3]) < 0.0 || ft_atof(tok[4]) < 0.0)
 		bad(tok, scene, line, fd);
 	struct_cyl(cy, scene, tok);

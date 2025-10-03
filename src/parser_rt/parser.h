@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:19:28 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 13:22:54 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:03:50 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ typedef struct s_prs_plane
 	int					color[3];
 	t_obj_param			mat;
 	struct s_prs_plane	*next;
+	int					is_checkred;
 }	t_prs_plane;
 
 typedef struct s_prs_cylinder

@@ -30,24 +30,36 @@ t_material	*choose_material(t_obj_param *mat, int *color)
 
 void	add_sphere(t_prs_sphere *sph, t_rt *rt)
 {
+	t_material *material;
+
 	while (sph)
 	{
-		rt->world[rt->world_size++] = sphere_create(
+		material = choose_material(&sph->mat, sph->color);
+		rt->world[rt->world_size] = sphere_create(
 				vec3(sph->pos[0], sph->pos[1], sph->pos[2]),
-				sph->radius, choose_material(&sph->mat, sph->color));
+				sph->radius,
+				material);
+		rt->world[rt->world_size++]->material = material;
+		
 		sph = sph->next;
 	}
 }
 
 void	add_plane(t_prs_plane *pl, t_rt *rt)
 {
+	t_hittable *plane;
+	t_material *material;
+
 	while (pl)
 	{
-		rt->world[rt->world_size++] = plane_creat(
+		material = choose_material(&pl->mat, pl->color);
+		plane = plane_creat(
 				vec3(pl->pos[0], pl->pos[1], pl->pos[2]),
 				vec3(pl->orientation[0], pl->orientation[1],
-					pl->orientation[2]), choose_material(&pl->mat, pl->color)
-				);
+					pl->orientation[2]), material,
+					pl->is_checkred);
+		rt->world[rt->world_size] = plane;
+		rt->world[rt->world_size++]->material = material;
 		pl = pl->next;
 	}
 }
@@ -55,17 +67,20 @@ void	add_plane(t_prs_plane *pl, t_rt *rt)
 void	add_cylinder(t_prs_cylinder *cyl, t_rt *rt)
 {
 	double	ra_and_he[2];
+	t_material *material;
 
 	while (cyl)
 	{
+		material = choose_material(&cyl->mat, cyl->color);
 		ra_and_he[0] = cyl->radius;
 		ra_and_he[1] = cyl->height;
-		rt->world[rt->world_size++] = cylinder_create(
+		rt->world[rt->world_size] = cylinder_create(
 				vec3(cyl->pos[0], cyl->pos[1], cyl->pos[2]),
 				vec3(cyl->orientation[0], cyl->orientation[1],
 					cyl->orientation[2]),
-				ra_and_he, choose_material(&cyl->mat, cyl->color)
+				ra_and_he, material
 				);
+		rt->world[rt->world_size++]->material = material;
 		cyl = cyl->next;
 	}
 }

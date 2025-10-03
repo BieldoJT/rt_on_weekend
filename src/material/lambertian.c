@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lambertian.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: gda-conc <gda-conc@student.42.fr>          +#+  +:+       +#+        */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 17:18:36 by natrodri          #+#    #+#             */
-/*   Updated: 2025/09/24 02:12:35 by gda-conc         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:17:52 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ static int	lambertian_scatter(const t_material *self, t_scatter_params *p)
 		return (0);
 	*(p->attenuation) = self->albedo;
 	p->is_specular = 0;
-	p->pdf = 1.0;
 	return (1);
 }
 
@@ -28,22 +27,6 @@ static int	lambertian_scatter(const t_material *self, t_scatter_params *p)
 **   pdf = cos(theta) / PI     (0 se cos < 0)
 ** theta = ângulo entre normal e direção 'scattered' (vetor mundo)
 */
-double	lambertian_scattering_pdf(const t_material *mat, const t_ray *r_in,
-			const t_hit_record *rec, t_vec3 *scattered)
-{
-	t_vec3	w;
-	double	cos_theta;
-
-	(void)mat;
-	(void)r_in;
-	if (!rec || !scattered)
-		return (0.0);
-	w = vec3_unit_vector(*scattered);
-	cos_theta = vec3_dot(rec->normal, w);
-	if (cos_theta <= 0.0)
-		return (0.0);
-	return (cos_theta / PI);
-}
 
 /*
 ** Emissão do Lambert: zero (não emite).
@@ -71,7 +54,6 @@ void	material_set_lambertian(t_material *mat, t_vec3 albedo)
 	if (!mat)
 		return ;
 	mat->scatter = &lambertian_scatter;
-	mat->scattering_pdf = &lambertian_scattering_pdf;
 	mat->albedo = albedo;
 	mat->fuzz = 0.2;
 	mat->refractive_index = 1.0;

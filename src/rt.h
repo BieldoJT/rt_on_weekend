@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/10/02 13:52:53 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 17:05:57 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,10 @@ typedef struct s_hit_record
 
 typedef struct s_hittable
 {
+	char		type;
 	void		*obj;
 	int			(*hit)(void *object, t_ray r, t_interval, t_hit_record *rec);
+	t_material *material;
 }	t_hittable;
 
 typedef struct s_sphere
@@ -154,6 +156,7 @@ typedef struct s_plane
 	t_vec3		point;
 	t_vec3		norma;
 	t_material	*material;
+	t_prs_plane	plane;
 }	t_plane;
 
 typedef struct s_cylinder
@@ -218,6 +221,7 @@ typedef struct s_rt
 	t_camera					*camera;
 	int							image_width;
 	int							image_height;
+	int							**image_index;
 	int							world_size;
 	t_hittable					**world;
 	t_interval					t_range;
@@ -257,6 +261,7 @@ typedef struct s_job
 double			linear_to_gamma(double x);
 int				rgb_to_int(int r, int g, int b);
 double			degree_to_radian(double degree);
+void			int_to_img(t_rt *rt);
 
 //------------------------------------------------------------------------------
 //|                                  mlx.c                                     |
@@ -264,8 +269,8 @@ double			degree_to_radian(double degree);
 void			init_mlx(t_rt *rt);
 void			my_mlx_pixel_put(t_mlx *mlx, int x, int y, \
 									int color);
-int				destroy(t_mlx *mlx);
-int				destroy_in_esc(int keycode, t_mlx *mlx);
+int				destroy(t_rt *rt);
+int				destroy_in_esc(int keycode, t_rt *rt);
 
 //------------------------------------------------------------------------------
 //|                                 camera.c                                   |
@@ -394,15 +399,21 @@ void			update_hit(int i, double *closest_t, int *hit_found,
 //|                                 plane.c                                    |
 //------------------------------------------------------------------------------
 
-t_hittable		*plane_creat(t_vec3 point, t_vec3 norma, t_material *material);
+t_hittable		*plane_creat(t_vec3 point, t_vec3 norma, t_material *material, int ischeck);
 void			add_sphere(t_prs_sphere *sph, t_rt *rt);
 void			add_plane(t_prs_plane *pl, t_rt *rt);
 void			add_cylinder(t_prs_cylinder *cyl, t_rt *rt);
 void			add_lights(t_prs_light *lt, t_rt *rt);
+void			add_checkerboard(t_hit_record *rec);
 
 //------------------------------------------------------------------------------
 //|                                 re.c                                    |
 //------------------------------------------------------------------------------
 double			linear_to_gamma(double x);
+
+
+void			free_index(t_rt *rt);
+void 			free_create_lights(t_rt *rt);
+void			free_world(t_rt *rt);
 
 #endif
