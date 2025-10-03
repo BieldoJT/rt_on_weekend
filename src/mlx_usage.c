@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:04:00 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/18 18:20:08 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:39:35 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_mlx(t_rt *rt)
 		return ;
 	mlx->mlx_ptr = mlx_init();
 	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr,
-			rt->image_width, rt->image_height, "janelaaaaa");
+			rt->image_width, rt->image_height, "MiniRT");
 	mlx->img = mlx_new_image(mlx->mlx_ptr, rt->image_width,
 			rt->image_height);
 	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel,
