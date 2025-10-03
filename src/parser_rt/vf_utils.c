@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:12:36 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 13:17:42 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:41:42 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,15 +43,15 @@ int	vf_float(const char *str)
 int	vf_color(char *str)
 {
 	int		i;
-	double	value;
+	int		value;
 
 	i = 0;
 	if (!str || !*str)
 		return (0);
 	if (!vf_float(str))
 		return (0);
-	value = ft_atof(str);
-	if (value < 0.0 || value > 255.0)
+	value = ft_atoi(str);
+	if (value < 0 || value > 255)
 		return (0);
 	while (str[i] && str[i] != '.')
 		i++;

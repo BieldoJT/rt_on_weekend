@@ -3,7 +3,8 @@ NAME = miniRT
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
 MINILIBX_FLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm -lpthread -O2
-MINILIBX = make_minilibx
+
+MLX_LIB = minilibx-linux/libmlx.a
 
 SRC_DIR = src
 MAT_DIR = $(SRC_DIR)/material/
@@ -55,7 +56,7 @@ OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
 
-$(NAME): $(OBJS) $(LIBFT) $(LIBVEC3) $(MINILIBX)
+$(NAME): $(OBJS) $(LIBFT) $(LIBVEC3) $(MLX_LIB)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBFT) $(LIBVEC3) $(MINILIBX_FLAGS) -o $(NAME)
 	@clear
 	@echo "✅ $(NAME) is compiled."
@@ -69,7 +70,7 @@ $(LIBFT):
 $(LIBVEC3):
 	@make -C $(SRC_DIR)/vec3
 
-make_minilibx:
+$(MLX_LIB):
 	@make -C minilibx-linux
 
 val:
@@ -96,4 +97,3 @@ fclean: clean
 	@echo "🗑️ Program and objects removed."
 
 re: fclean all
-

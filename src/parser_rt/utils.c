@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 13:13:02 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:39:27 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	set_color(char **tok, int *color)
 		{
 			if (trimmed)
 				free(trimmed);
-			free_split(tok);
 			return (0);
 		}
 		color[i] = ft_atoi(trimmed);
@@ -59,7 +58,7 @@ int	convert_vec(char *str, double *vec)
 	int		i;
 
 	if (!check_commas(str))
-		return (printf("vetor invalido paizao\n"), 0);
+		return (printf("invalid vector\n"), 0);
 	tok = ft_split(str, ',');
 	i = 0;
 	while (tok[i])
@@ -67,7 +66,7 @@ int	convert_vec(char *str, double *vec)
 	if (i != 3)
 	{
 		free_split(tok);
-		return (printf("vetor invalido paizao\n"), 0);
+		return (printf("invalid vector\n"), 0);
 	}
 	if (!vf_float(tok[0]) || !vf_float(tok[1]) || !vf_float(tok[2]))
 		return (0);
@@ -84,17 +83,16 @@ int	convert_color(char *str, int *color)
 	int		i;
 
 	if (!check_commas(str))
-		return (printf("cor invalida paizao\n"), 0);
+		return (printf("invalid color\n"), 0);
 	tok = ft_split(str, ',');
 	i = 0;
 	while (tok[i])
 		i++;
-	if (i != 3)
+	if (i != 3 || !set_color(tok, color))
 	{
 		free_split(tok);
-		return (printf("cor invalida paizao\n"), 0);
+		return (0);
 	}
-	set_color(tok, color);
 	free_split(tok);
 	return (1);
 }

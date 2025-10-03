@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 13:25:18 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 15:04:44 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	parse_plane(char *str, t_scene *scene, char *line, int fd)
 		free(pl);
 		bad(tok, scene, line, fd);
 	}
-	add_mat(tok[i], &pl->mat);
+	add_mat(tok[i - 1], &pl->mat);
 	pl->next = scene->planes;
 	scene->planes = pl;
 	free_split(tok);
@@ -115,7 +115,7 @@ void	parse_cylinder(char *str, t_scene *scene, char *line, int fd)
 		free(cy);
 		bad(tok, scene, line, fd);
 	}
-	add_mat(tok[i], &cy->mat);
+	add_mat(tok[i - 1], &cy->mat);
 	if (ft_atof(tok[3]) < 0.0 || ft_atof(tok[4]) < 0.0)
 		bad(tok, scene, line, fd);
 	struct_cyl(cy, scene, tok);
