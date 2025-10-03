@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/10/03 17:05:57 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:20:16 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -415,5 +415,6 @@ double			linear_to_gamma(double x);
 void			free_index(t_rt *rt);
 void 			free_create_lights(t_rt *rt);
 void			free_world(t_rt *rt);
+void			add_al(t_prs_ambient *prs_data, t_rt *rt);
 
 #endif

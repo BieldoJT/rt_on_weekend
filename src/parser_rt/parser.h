@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:19:28 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 16:03:50 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:44:12 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ typedef struct s_scene
 	t_prs_cylinder	*cylinders;
 	t_prs_light		*lights;
 	t_prs_camera	camera;
-	t_prs_ambient	ambient;
+	t_prs_ambient	*ambient;
 }	t_scene;
 
 double	ft_atof(char *str);

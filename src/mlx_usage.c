@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:04:00 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/10/03 17:47:43 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:01:42 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,9 @@ void	init_mlx(t_rt *rt)
 {
 	t_mlx	*mlx;
 
-	mlx = rt->mlx;
+	mlx = malloc(sizeof(t_mlx));
+	if (!mlx)
+		return ;
 	mlx->mlx_ptr = mlx_init();
 	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr,
 			rt->image_width, rt->image_height, "MiniRT");

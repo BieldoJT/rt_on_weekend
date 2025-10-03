@@ -110,3 +110,11 @@ void	add_lights(t_prs_light *lt, t_rt *rt)
 		lt = lt->next;
 	}
 }
+
+void	add_al(t_prs_ambient *prs_data, t_rt *rt)
+{
+	rt->ambient.ratio = prs_data->intensity;
+	rt->ambient.color.x = (double)prs_data->color[0] / 255.0;
+	rt->ambient.color.y = (double)prs_data->color[1] / 255.0;
+	rt->ambient.color.z = (double)prs_data->color[2] / 255.0;
+}
