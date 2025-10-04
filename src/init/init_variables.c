@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/10/03 18:50:16 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:57:58 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,10 +64,22 @@ void	init_rt(t_rt *rt, t_scene *scene)
 	create_world(rt, scene);
 }
 
+int	count_world(t_scene *scene)
+{
+	int	i;
+
+	i = 0;
+	if (scene->ambient)
+		i++;
+	i += count_obj(scene);
+	i += count_lights(scene->lights);
+	return (i);
+}
+
 static void	create_world(t_rt *rt, t_scene *scene)
 {
 	rt->world_size = 0;
-	rt->world = malloc(sizeof(t_hittable *) * 20);
+	rt->world = malloc(sizeof(t_hittable *) * count_world(scene));
 	if (!rt->world)
 		return ;
 	if (scene->ambient)

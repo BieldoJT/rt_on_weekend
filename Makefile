@@ -34,6 +34,7 @@ SRCS = \
 	$(CAM_DIR)camera_utils.c \
 	$(SRC_DIR)/init/init_variables.c \
 	$(SRC_DIR)/init/init_utils.c \
+	$(SRC_DIR)/init/world_utils.c \
 	$(INTER_DIR)interval.c \
 	$(INTER_DIR)interval_utils.c \
 	$(SRC_DIR)/lights.c \

@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 14:39:27 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:37:40 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,4 +103,5 @@ void	all_free(t_scene *scene)
 	free_planes(scene->planes);
 	free_lights(scene->lights);
 	free_cylinders(scene->cylinders);
+	free(scene->ambient);
 }

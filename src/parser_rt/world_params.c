@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 18:52:41 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/04 13:35:27 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	creat_ambient(char *str, t_scene *scene, char *line, int fd)
 		bad(tok, scene, line, fd);
 	}
 	ambient->intensity = intens;
-
 	if (!convert_color(tok[2], ambient->color))
 	{
 		free(ambient);
@@ -44,7 +43,6 @@ void	creat_ambient(char *str, t_scene *scene, char *line, int fd)
 	scene->ambient = ambient;
 	free_split(tok);
 }
-
 
 int	verify_normalize(char *str)
 {
