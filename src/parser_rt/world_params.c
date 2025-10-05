@@ -29,13 +29,9 @@ void	creat_ambient(char *str, t_scene *scene, char *line, int fd)
 	if (!ambient)
 		bad(tok, scene, line, fd);
 	intens = ft_atof(tok[1]);
-	if (intens < 0.0 || intens > 1.0)
-	{
-		free(ambient);
-		bad(tok, scene, line, fd);
-	}
 	ambient->intensity = intens;
-	if (!convert_color(tok[2], ambient->color))
+	if (intens < 0.0 || intens > 1.0
+		|| !convert_color(tok[2], ambient->color))
 	{
 		free(ambient);
 		bad(tok, scene, line, fd);
@@ -120,7 +116,7 @@ void	parse_light(char *str, t_scene *scene, char *line, int fd)
 	}
 	if (ft_atof(tok[2]) < 0.0 || ft_atof(tok[2]) > 1.0)
 		bad(tok, scene, line, fd);
-	scene->ambient->intensity = ft_atof(tok[2]);
+	light->intensity = ft_atof(tok[2]);
 	light->next = scene->lights;
 	scene->lights = light;
 	free_split(tok);

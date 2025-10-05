@@ -28,6 +28,7 @@ void	init_mlx(t_rt *rt)
 			&mlx->line_length, &mlx->endian);
 	rt->mlx = mlx;
 }
+
 int	destroy(t_rt *rt)
 {
 	t_mlx	*mlx;

@@ -96,7 +96,7 @@ static void	render_parallel(t_rt *rt)
 		rt->mlx->win_ptr, rt->mlx->img, 0, 0);
 }
 
-int render_loop(t_rt *rt)
+int	render_loop(t_rt *rt)
 {
 	if (rt->camera->count_samples >= rt->camera->sample_per_pixel)
 	{
@@ -107,12 +107,13 @@ int render_loop(t_rt *rt)
 	{
 		render_parallel(rt);
 		int_to_img(rt);
-		mlx_put_image_to_window(rt->mlx->mlx_ptr, rt->mlx->win_ptr, rt->mlx->img, 0, 0);
+		mlx_put_image_to_window(rt->mlx->mlx_ptr, rt->mlx->win_ptr,
+			rt->mlx->img, 0, 0);
 		rt->camera->count_samples++;
 		ft_printf("Rendering... %d samples per pixel.\r",
 			rt->camera->count_samples);
 	}
-		return (0);
+	return (0);
 }
 
 void	render_rt(t_rt *rt, t_scene *scene)

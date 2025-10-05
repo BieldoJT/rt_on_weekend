@@ -14,7 +14,7 @@
 
 int	count_obj(t_scene *scene)
 {
-	int	i;
+	int				i;
 	t_prs_cylinder	*cyl;
 	t_prs_plane		*pl;
 	t_prs_sphere	*sp;

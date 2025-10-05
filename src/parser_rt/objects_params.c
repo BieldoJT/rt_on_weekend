@@ -12,27 +12,6 @@
 
 #include "parser.h"
 
-void	add_mat(char *mat_tok, t_obj_param *object, char obj_type)
-{
-	if (!mat_tok)
-		return ;
-	if (mat_tok[0] == 'm' || mat_tok[0] == 'd')
-	{
-		object->material = mat_tok[0];
-		object->param = ft_atof(mat_tok + 1);
-	}
-	else if (obj_type == 'p' && mat_tok[0] == 'c')
-	{
-		object->material = 'c';
-		object->param = 0.0;
-	}
-	else
-	{
-		object->material = 'l';
-		object->param = 0.0;
-	}
-}
-
 void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 {
 	char			**tok;
@@ -62,6 +41,21 @@ void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 	free_split(tok);
 }
 
+static int	validate_plane(char **tok, t_prs_plane *pl)
+{
+	if (!pl)
+		return (0);
+	if (!convert_vec(tok[1], pl->pos))
+		return (0);
+	if (!convert_vec(tok[2], pl->orientation))
+		return (0);
+	if (!convert_color(tok[3], pl->color))
+		return (0);
+	if (!verify_normalize(tok[2]))
+		return (0);
+	return (1);
+}
+
 void	parse_plane(char *str, t_scene *scene, char *line, int fd)
 {
 	char		**tok;
@@ -75,12 +69,7 @@ void	parse_plane(char *str, t_scene *scene, char *line, int fd)
 	if (i != 4 && i != 5)
 		bad(tok, scene, line, fd);
 	pl = malloc(sizeof(t_prs_plane));
-	if (!pl)
-		bad(tok, scene, line, fd);
-	if (!verify_normalize(tok[2]))
-		bad(tok, scene, line, fd);
-	if (!convert_vec(tok[1], pl->pos) || !convert_vec(tok[2],
-			pl->orientation) || !convert_color(tok[3], pl->color))
+	if (!validate_plane(tok, pl))
 	{
 		free(pl);
 		bad(tok, scene, line, fd);

@@ -12,25 +12,9 @@
 
 #include "../rt.h"
 
-t_material	*choose_material(t_obj_param *mat, int *color)
-{
-	t_vec3		col;
-	t_material	*mat_ptr;
-
-	col = vec3(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0);
-	mat_ptr = NULL;
-	if (mat->material == 'm')
-		mat_ptr = metal_create(col, mat->param);
-	else if (mat->material == 'd')
-		mat_ptr = dielectric_create(mat->param);
-	else
-		mat_ptr = lambertian_create(col);
-	return (mat_ptr);
-}
-
 void	add_sphere(t_prs_sphere *sph, t_rt *rt)
 {
-	t_material *material;
+	t_material	*material;
 
 	while (sph)
 	{
@@ -40,15 +24,14 @@ void	add_sphere(t_prs_sphere *sph, t_rt *rt)
 				sph->radius,
 				material);
 		rt->world[rt->world_size++]->material = material;
-		
 		sph = sph->next;
 	}
 }
 
 void	add_plane(t_prs_plane *pl, t_rt *rt)
 {
-	t_hittable *plane;
-	t_material *material;
+	t_hittable	*plane;
+	t_material	*material;
 
 	while (pl)
 	{
@@ -57,7 +40,7 @@ void	add_plane(t_prs_plane *pl, t_rt *rt)
 				vec3(pl->pos[0], pl->pos[1], pl->pos[2]),
 				vec3(pl->orientation[0], pl->orientation[1],
 					pl->orientation[2]), material,
-					pl->is_checkred);
+				pl->is_checkred);
 		rt->world[rt->world_size] = plane;
 		rt->world[rt->world_size++]->material = material;
 		pl = pl->next;
@@ -66,8 +49,8 @@ void	add_plane(t_prs_plane *pl, t_rt *rt)
 
 void	add_cylinder(t_prs_cylinder *cyl, t_rt *rt)
 {
-	double	ra_and_he[2];
-	t_material *material;
+	double		ra_and_he[2];
+	t_material	*material;
 
 	while (cyl)
 	{

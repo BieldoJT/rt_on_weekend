@@ -12,28 +12,44 @@
 
 #include "../rt.h"
 
-void init_index_image(t_rt *rt)
+t_material	*choose_material(t_obj_param *mat, int *color)
 {
-    int i;
-    int j;
+	t_vec3		col;
+	t_material	*mat_ptr;
 
-    rt->image_index = malloc(sizeof(int *) * rt->image_height);
-    if (!rt->image_index)
-        return ;
-    i = 0;
-    while (i < rt->image_height)
-    {
-        rt->image_index[i] = malloc(sizeof(int) * rt->image_width);
-        if (!rt->image_index[i])
-            return ;
-        j = 0;
-        while (j < rt->image_width)
-        {
-            rt->image_index[i][j] = 0;
-            j++;
-        }
-        i++;
-    }
+	col = vec3(color[0] / 255.0, color[1] / 255.0, color[2] / 255.0);
+	mat_ptr = NULL;
+	if (mat->material == 'm')
+		mat_ptr = metal_create(col, mat->param);
+	else if (mat->material == 'd')
+		mat_ptr = dielectric_create(mat->param);
+	else
+		mat_ptr = lambertian_create(col);
+	return (mat_ptr);
+}
+
+void	init_index_image(t_rt *rt)
+{
+	int	i;
+	int	j;
+
+	rt->image_index = malloc(sizeof(int *) * rt->image_height);
+	if (!rt->image_index)
+		return ;
+	i = 0;
+	while (i < rt->image_height)
+	{
+		rt->image_index[i] = malloc(sizeof(int) * rt->image_width);
+		if (!rt->image_index[i])
+			return ;
+		j = 0;
+		while (j < rt->image_width)
+		{
+			rt->image_index[i][j] = 0;
+			j++;
+		}
+		i++;
+	}
 }
 
 static void	create_world(t_rt *rt, t_scene *scene);
@@ -49,7 +65,7 @@ void	init_rt(t_rt *rt, t_scene *scene)
 	rt->intensity = (t_interval){0, 0};
 	interval_init(&rt->t_range, 0.001, INFINITY);
 	interval_init(&rt->intensity, 0.000, 0.999);
-	rt->image_width = 800;
+	rt->image_width = 400;
 	rt->image_height = (int)(rt->image_width / aspect_ratio);
 	if (rt->image_height < 1)
 		rt->image_height = 1;
@@ -58,7 +74,7 @@ void	init_rt(t_rt *rt, t_scene *scene)
 	rt->camera = init_camera(&scene->camera, aspect_ratio, rt->image_width,
 			rt->image_height);
 	rt->camera->count_samples = 0;
-	rt->camera->sample_per_pixel = 500;
+	rt->camera->sample_per_pixel = 80;
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
 	rt->camera->max_depth = 20;
 	create_world(rt, scene);

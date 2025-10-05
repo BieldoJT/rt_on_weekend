@@ -81,3 +81,24 @@ void	bad(char **tok, t_scene *scene, char *line, int fd)
 	printf("Error\n");
 	exit(1);
 }
+
+void	add_mat(char *mat_tok, t_obj_param *object, char obj_type)
+{
+	if (!mat_tok)
+		return ;
+	if (mat_tok[0] == 'm' || mat_tok[0] == 'd')
+	{
+		object->material = mat_tok[0];
+		object->param = ft_atof(mat_tok + 1);
+	}
+	else if (obj_type == 'p' && mat_tok[0] == 'c')
+	{
+		object->material = 'c';
+		object->param = 0.0;
+	}
+	else
+	{
+		object->material = 'l';
+		object->param = 0.0;
+	}
+}

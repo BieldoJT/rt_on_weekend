@@ -32,10 +32,10 @@ double	linear_to_gamma(double x)
 	return (0.0);
 }
 
-void int_to_img(t_rt *rt)
+void	int_to_img(t_rt *rt)
 {
-	int j;
-	int i;
+	int	j;
+	int	i;
 
 	j = 0;
 	while (j < rt->image_height)

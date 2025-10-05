@@ -49,7 +49,8 @@ int	plane_hit(void *obj, t_ray r, t_interval t_range, t_hit_record *rec)
 	return (1);
 }
 
-int	plane_hit_checkered(void *obj, t_ray r, t_interval t_range, t_hit_record *rec)
+int	plane_hit_checkered(void *obj, t_ray r, t_interval t_range,
+	t_hit_record *rec)
 {
 	t_plane	*pl;
 	double	denomi;
@@ -72,7 +73,8 @@ int	plane_hit_checkered(void *obj, t_ray r, t_interval t_range, t_hit_record *re
 	return (1);
 }
 
-t_hittable	*plane_creat(t_vec3 point, t_vec3 norma, t_material *material, int	ischeck)
+t_hittable	*plane_creat(t_vec3 point, t_vec3 norma,
+	t_material *material, int ischeck)
 {
 	t_hittable	*ht;
 	t_plane		*pl;
@@ -92,4 +94,3 @@ t_hittable	*plane_creat(t_vec3 point, t_vec3 norma, t_material *material, int	is
 		ht->hit = plane_hit;
 	return (ht);
 }
-

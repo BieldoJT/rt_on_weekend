@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   mlx_usage_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/16 16:04:00 by gda-conc          #+#    #+#             */
+/*   Updated: 2025/10/03 18:01:42 by natrodri         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "rt.h"
 
 void	free_index(t_rt *rt)
@@ -13,36 +25,37 @@ void	free_index(t_rt *rt)
 	free(rt->image_index);
 }
 
-void free_create_lights(t_rt *rt)
+void	free_create_lights(t_rt *rt)
 {
-	t_point_light **lights = rt->lights;
-	int i = 0;
+	t_point_light	**lights;
+	int				i;
 
+	lights = rt->lights;
+	i = 0;
 	if (!rt->n_lights)
 		return ;
 	while (i < rt->n_lights)
 	{
-
 		free(lights[i]);
 		i++;
 	}
 	free(lights);
 }
 
-void free_world(t_rt *rt)
+void	free_world(t_rt *rt)
 {
-    int	i;
+	int	i;
 
-    i = 0;
-    if (!rt->world)
-        return ;
-    while (i < rt->world_size)
-    {
-		if(rt->world[i]->type == 'c')
+	i = 0;
+	if (!rt->world)
+		return ;
+	while (i < rt->world_size)
+	{
+		if (rt->world[i]->type == 'c')
 			free(rt->world[i]->obj);
 		free(rt->world[i]->material);
-        free(rt->world[i]);
-        i++;
-    }
-    free(rt->world);
+		free(rt->world[i]);
+		i++;
+	}
+	free(rt->world);
 }

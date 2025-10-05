@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #ifndef PARSER_H
+# define PARSER_H
 
 # include <stdio.h>
 # include <fcntl.h>
@@ -110,5 +111,6 @@ int		vf_float(const char *str);
 int		vf_color(char *str);
 int		verify_normalize(char *str);
 char	**ft_split2(char *str, char *charset);
+void	add_mat(char *mat_tok, t_obj_param *object, char obj_type);
 
 #endif

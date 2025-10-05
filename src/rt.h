@@ -422,4 +422,8 @@ void			add_al(t_prs_ambient *prs_data, t_rt *rt);
 int				count_lights(t_prs_light *light);
 int				count_obj(t_scene *scene);
 
+
+
+t_material		*choose_material(t_obj_param *mat, int *color);
+
 #endif
