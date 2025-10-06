@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/10/04 13:56:30 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/06 11:35:58 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ typedef struct s_hittable
 	char		type;
 	void		*obj;
 	int			(*hit)(void *object, t_ray r, t_interval, t_hit_record *rec);
-	t_material *material;
+	t_material	*material;
 }	t_hittable;
 
 typedef struct s_sphere
@@ -399,7 +399,8 @@ void			update_hit(int i, double *closest_t, int *hit_found,
 //|                                 plane.c                                    |
 //------------------------------------------------------------------------------
 
-t_hittable		*plane_creat(t_vec3 point, t_vec3 norma, t_material *material, int ischeck);
+t_hittable		*plane_creat(t_vec3 point, t_vec3 norma,
+					t_material *material, int ischeck);
 void			add_sphere(t_prs_sphere *sph, t_rt *rt);
 void			add_plane(t_prs_plane *pl, t_rt *rt);
 void			add_cylinder(t_prs_cylinder *cyl, t_rt *rt);
@@ -411,18 +412,13 @@ void			add_checkerboard(t_hit_record *rec);
 //------------------------------------------------------------------------------
 double			linear_to_gamma(double x);
 
-
 void			free_index(t_rt *rt);
-void 			free_create_lights(t_rt *rt);
+void			free_create_lights(t_rt *rt);
 void			free_world(t_rt *rt);
 void			add_al(t_prs_ambient *prs_data, t_rt *rt);
 
-
-
 int				count_lights(t_prs_light *light);
 int				count_obj(t_scene *scene);
-
-
 
 t_material		*choose_material(t_obj_param *mat, int *color);
 
