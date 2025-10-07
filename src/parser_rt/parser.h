@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/02 13:19:28 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 18:44:12 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:00:38 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,6 @@ int		vf_float(const char *str);
 int		vf_color(char *str);
 int		verify_normalize(char *str);
 char	**ft_split2(char *str, char *charset);
-void	add_mat(char *mat_tok, t_obj_param *object, char obj_type);
+int		add_mat(char *mat_tok, t_obj_param *object, char obj_type, int i);
 
 #endif

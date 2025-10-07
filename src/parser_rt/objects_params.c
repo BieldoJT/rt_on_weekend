@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/03 16:23:17 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:41:40 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 	t_prs_sphere	*sp;
 	int				i;
 
-	tok = ft_split2(str, "\t ");
+	tok = ft_split2(str, "\t \n");
 	i = 0;
 	while (tok[i])
 		i++;
@@ -27,12 +27,12 @@ void	parse_sphere(char *str, t_scene *scene, char *line, int fd)
 	sp = malloc(sizeof(t_prs_sphere));
 	if (!sp)
 		bad(tok, scene, line, fd);
-	if (!convert_vec(tok[1], sp->pos) || !convert_color(tok[3], sp->color))
+	if (!convert_vec(tok[1], sp->pos) || !convert_color(tok[3], sp->color)
+		|| !add_mat(tok[i - 1], &sp->mat, '\0', i))
 	{
-		bad(tok, scene, line, fd);
 		free(sp);
+		bad(tok, scene, line, fd);
 	}
-	add_mat(tok[i - 1], &sp->mat, '\0');
 	if (ft_atof(tok[2]) < 0.0)
 		bad(tok, scene, line, fd);
 	sp->radius = ft_atof(tok[2]) / 2.0;
@@ -62,19 +62,18 @@ void	parse_plane(char *str, t_scene *scene, char *line, int fd)
 	t_prs_plane	*pl;
 	int			i;
 
-	tok = ft_split2(str, "\t ");
+	tok = ft_split2(str, "\t \n");
 	i = 0;
 	while (tok[i])
 		i++;
 	if (i != 4 && i != 5)
 		bad(tok, scene, line, fd);
 	pl = malloc(sizeof(t_prs_plane));
-	if (!validate_plane(tok, pl))
+	if (!validate_plane(tok, pl) || !add_mat(tok[i - 1], &pl->mat, 'c', i))
 	{
 		free(pl);
 		bad(tok, scene, line, fd);
 	}
-	add_mat(tok[i - 1], &pl->mat, 'p');
 	if (pl->mat.material == 'c')
 		pl->is_checkred = 1;
 	else
@@ -98,7 +97,7 @@ void	parse_cylinder(char *str, t_scene *scene, char *line, int fd)
 	t_prs_cylinder	*cy;
 	int				i;
 
-	tok = ft_split2(str, "\t ");
+	tok = ft_split2(str, "\t \n");
 	i = 0;
 	while (tok[i])
 		i++;
@@ -108,12 +107,12 @@ void	parse_cylinder(char *str, t_scene *scene, char *line, int fd)
 	if (!cy)
 		bad(tok, scene, line, fd);
 	if (!convert_vec(tok[1], cy->pos) || !convert_vec(tok[2],
-			cy->orientation) || !convert_color(tok[5], cy->color))
+			cy->orientation) || !convert_color(tok[5], cy->color)
+		|| !add_mat(tok[i - 1], &cy->mat, '\0', i))
 	{
 		free(cy);
 		bad(tok, scene, line, fd);
 	}
-	add_mat(tok[i - 1], &cy->mat, '\0');
 	if (ft_atof(tok[3]) < 0.0 || ft_atof(tok[4]) < 0.0)
 		bad(tok, scene, line, fd);
 	struct_cyl(cy, scene, tok);

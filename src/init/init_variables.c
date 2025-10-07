@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/10/04 13:57:58 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/07 10:47:40 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void	init_rt(t_rt *rt, t_scene *scene)
 	rt->camera = init_camera(&scene->camera, aspect_ratio, rt->image_width,
 			rt->image_height);
 	rt->camera->count_samples = 0;
-	rt->camera->sample_per_pixel = 80;
+	rt->camera->sample_per_pixel = 300;
 	rt->camera->pixel_sample_scale = 1.0 / rt->camera->sample_per_pixel;
 	rt->camera->max_depth = 20;
 	create_world(rt, scene);

@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/04 13:35:27 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:42:28 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	creat_ambient(char *str, t_scene *scene, char *line, int fd)
 	t_prs_ambient	*ambient;
 	int				i;
 
-	tok = ft_split2(str, "\t ");
+	tok = ft_split2(str, "\t \n");
 	i = 0;
 	while (tok[i])
 		i++;
@@ -75,7 +75,7 @@ void	parse_camera(char *str, t_scene *scene, char *line, int fd)
 	double	fov;
 	int		i;
 
-	tok = ft_split2(str, "\t ");
+	tok = ft_split2(str, "\t \n");
 	i = 0;
 	while (tok[i])
 		i++;
@@ -99,7 +99,7 @@ void	parse_light(char *str, t_scene *scene, char *line, int fd)
 	t_prs_light	*light;
 	int			i;
 
-	tok = ft_split2(str, "\t ");
+	tok = ft_split2(str, "\t \n");
 	i = 0;
 	while (tok[i])
 		i++;

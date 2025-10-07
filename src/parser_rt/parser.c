@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/02 13:19:06 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/07 11:35:51 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	verify_file(char *file)
 	fd = open(file, O_RDONLY);
 	if (fd < 0)
 	{
-		printf("deu ruim no fd paizao");
+		printf("fd failure");
 		exit(-1);
 	}
 	i = ft_strlen(file);
@@ -30,7 +30,7 @@ int	verify_file(char *file)
 	cmp = ft_strncmp(&file[i], ".rt", 3);
 	if (cmp != 0)
 	{
-		printf("o arquivo nao e .rt paizao");
+		printf("file is not .rt");
 		exit (-1);
 	}
 	return (fd);
@@ -87,6 +87,7 @@ void	parser_rt(char *file, t_scene *scene)
 	scene->spheres = NULL;
 	scene->planes = NULL;
 	scene->cylinders = NULL;
+	scene->ambient = NULL;
 	read_file(fd, scene);
 	close(fd);
 }

@@ -18,7 +18,7 @@ void	add_checkerboard(t_hit_record *rec)
 	int		x;
 	int		z;
 
-	square_size = 1.0;
+	square_size = 5.0;
 	x = floor(rec->p.x / square_size);
 	z = floor(rec->p.z / square_size);
 	if ((x + z) % 2 == 0)

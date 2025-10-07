@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/03 13:12:36 by natrodri          #+#    #+#             */
-/*   Updated: 2025/10/04 13:37:19 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:14:20 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ void	bad(char **tok, t_scene *scene, char *line, int fd)
 {
 	free_split(tok);
 	all_free(scene);
+	free(line);
 	line = get_next_line(fd);
 	while (line)
 	{
@@ -82,23 +83,28 @@ void	bad(char **tok, t_scene *scene, char *line, int fd)
 	exit(1);
 }
 
-void	add_mat(char *mat_tok, t_obj_param *object, char obj_type)
+int	add_mat(char *mat_tok, t_obj_param *object, char obj_type, int i)
 {
 	if (!mat_tok)
-		return ;
-	if (mat_tok[0] == 'm' || mat_tok[0] == 'd')
+		return (0);
+	if (mat_tok[0] == 'm' || mat_tok[0] == 'd' || mat_tok[0] == 'l')
 	{
 		object->material = mat_tok[0];
-		object->param = ft_atof(mat_tok + 1);
+		object->param = 0.0;
+		if (mat_tok[0] != 'l')
+			object->param = ft_atof(mat_tok + 1);
 	}
 	else if (obj_type == 'p' && mat_tok[0] == 'c')
 	{
 		object->material = 'c';
 		object->param = 0.0;
 	}
-	else
+	else if (i == 6 || i == 4)
 	{
 		object->material = 'l';
 		object->param = 0.0;
 	}
+	else
+		return (0);
+	return (1);
 }
