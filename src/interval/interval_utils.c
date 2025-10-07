@@ -6,11 +6,29 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:10:51 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/02 11:20:45 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "interval.h"
+
+t_interval	interval_empty(void)
+{
+	t_interval	i;
+
+	i.min = INFINITY;
+	i.max = -INFINITY;
+	return (i);
+}
+
+t_interval	interval_universe(void)
+{
+	t_interval	i;
+
+	i.min = -INFINITY;
+	i.max = INFINITY;
+	return (i);
+}
 
 int	interval_contains(const t_interval *i, double x)
 {

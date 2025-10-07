@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:04:00 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/18 18:20:08 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 18:01:42 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	init_mlx(t_rt *rt)
 		return ;
 	mlx->mlx_ptr = mlx_init();
 	mlx->win_ptr = mlx_new_window(mlx->mlx_ptr,
-			rt->image_width, rt->image_height, "janelaaaaa");
+			rt->image_width, rt->image_height, "MiniRT");
 	mlx->img = mlx_new_image(mlx->mlx_ptr, rt->image_width,
 			rt->image_height);
 	mlx->addr = mlx_get_data_addr(mlx->img, &mlx->bits_per_pixel,
@@ -29,21 +29,30 @@ void	init_mlx(t_rt *rt)
 	rt->mlx = mlx;
 }
 
-int	destroy(t_mlx *mlx)
+int	destroy(t_rt *rt)
 {
+	t_mlx	*mlx;
+
+	mlx = rt->mlx;
+	free(rt->camera);
+	free_world(rt);
+	free_create_lights(rt);
+	free_index(rt);
 	mlx_destroy_image(mlx->mlx_ptr, mlx->img);
 	mlx_destroy_window(mlx->mlx_ptr, mlx->win_ptr);
 	mlx_destroy_display(mlx->mlx_ptr);
+	all_free(mlx->scene);
 	free(mlx->mlx_ptr);
-	free(mlx);
+	free(rt->mlx);
+	free(rt);
 	exit(0);
 	return (0);
 }
 
-int	destroy_in_esc(int keycode, t_mlx *mlx)
+int	destroy_in_esc(int keycode, t_rt *rt)
 {
 	if (keycode == ESC)
-		destroy(mlx);
+		destroy(rt);
 	return (0);
 }
 

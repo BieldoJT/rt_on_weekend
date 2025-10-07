@@ -1,25 +1,43 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lights.c                                           :+:      :+:    :+:   */
+/*   utils_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/26 17:16:33 by natrodri         ###   ########.fr       */
+/*   Created: 2025/07/18 18:07:15 by natrodri          #+#    #+#             */
+/*   Updated: 2025/10/02 11:21:22 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "rt.h"
+#include "interval.h"
 
-t_point_light	*point_light_create(t_vec3 position, t_vec3 intensity)
+t_interval	interval_empty(void)
 {
-	t_point_light	*light;
+	t_interval	i;
 
-	light = malloc(sizeof(t_point_light));
-	if (!light)
-		return (NULL);
-	light->position = position;
-	light->intensity = intensity;
-	return (light);
+	i.min = INFINITY;
+	i.max = -INFINITY;
+	return (i);
+}
+
+t_interval	interval_universe(void)
+{
+	t_interval	i;
+
+	i.min = -INFINITY;
+	i.max = INFINITY;
+	return (i);
+}
+
+void	interval_init_empty(t_interval *i)
+{
+	i->min = INFINITY;
+	i->max = -INFINITY;
+}
+
+void	interval_init(t_interval *i, double min, double max)
+{
+	i->min = min;
+	i->max = max;
 }

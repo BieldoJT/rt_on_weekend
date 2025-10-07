@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/26 16:49:17 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/06 11:35:58 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <stdio.h>
 # include <stdlib.h>
 # include <time.h>
+# include "parser_rt/parser.h"
 
 /*
 ** =============================================================================
@@ -77,8 +78,8 @@ typedef struct s_scatter_params
 	const t_hit_record			*rec;
 	t_vec3						*attenuation;
 	t_ray						*scattered;
-	int							is_specular; //pro metal e o dialectrico
-	double						pdf; //pro difuso
+	int							is_specular;
+	double						pdf;
 }								t_scatter_params;
 
 typedef struct s_material
@@ -92,6 +93,7 @@ typedef struct s_material
 	double						fuzz;
 	double						refractive_index;
 	t_vec3						color_emited;
+	int							checkerboard;
 }								t_material;
 
 //------------------------------------------------------------------------------
@@ -121,8 +123,10 @@ typedef struct s_hit_record
 
 typedef struct s_hittable
 {
+	char		type;
 	void		*obj;
 	int			(*hit)(void *object, t_ray r, t_interval, t_hit_record *rec);
+	t_material	*material;
 }	t_hittable;
 
 typedef struct s_sphere
@@ -143,21 +147,21 @@ typedef struct s_equation
 
 typedef struct s_ambient
 {
-	double	ratio;   /* 0..1 */
-	t_vec3	color;   /* 0..1 */
+	double	ratio;
+	t_vec3	color;
 }	t_ambient;
 
-typedef	struct s_plane
+typedef struct s_plane
 {
-	t_vec3	point;
-	t_vec3	norma;
+	t_vec3		point;
+	t_vec3		norma;
 	t_material	*material;
+	t_prs_plane	plane;
 }	t_plane;
 
-
-typedef	struct	s_cylinder
+typedef struct s_cylinder
 {
-	t_vec3		center;	//center the cylidner of the height
+	t_vec3		center;
 	t_vec3		axis;
 	double		radius;
 	double		height;
@@ -167,11 +171,9 @@ typedef	struct	s_cylinder
 // Estrutura para armazenar todas as interseções encontradas
 typedef struct s_intersections
 {
-    double  t[4];    // Um cilindro pode ter no máximo 4 interseções
-    int     count;
-}   t_intersections;
-
- 
+	double	t[4];
+	int		count;
+}	t_intersections;
 
 //------------------------------------------------------------------------------
 //|                                   CÂMERA                                   |
@@ -193,15 +195,13 @@ typedef struct s_camera
 	double						pixel_sample_scale;
 	int							max_depth;
 	t_vec3						background_color;
+	int							img_width;
+	int							img_height;
 }								t_camera;
-
-
-
 
 //------------------------------------------------------------------------------
 //|                           RENDER & JANELA                        |
 //------------------------------------------------------------------------------
-
 
 typedef struct s_mlx
 {
@@ -212,8 +212,8 @@ typedef struct s_mlx
 	int							bits_per_pixel;
 	int							line_length;
 	int							endian;
+	t_scene						*scene;
 }								t_mlx;
-
 
 typedef struct s_rt
 {
@@ -221,6 +221,7 @@ typedef struct s_rt
 	t_camera					*camera;
 	int							image_width;
 	int							image_height;
+	int							**image_index;
 	int							world_size;
 	t_hittable					**world;
 	t_interval					t_range;
@@ -230,7 +231,7 @@ typedef struct s_rt
 	t_ambient					ambient;
 }								t_rt;
 
-void    set_ambient(t_rt *rt, double ratio, t_vec3 color);
+void			set_ambient(t_rt *rt, double ratio, t_vec3 color);
 
 /*
 ** =============================================================================
@@ -241,98 +242,53 @@ void    set_ambient(t_rt *rt, double ratio, t_vec3 color);
 //------------------------------------------------------------------------------
 //|                                  main.c                                    |
 //------------------------------------------------------------------------------
-void							init_rt(t_rt *rt);
-
-
-
+void			init_rt(t_rt *rt, t_scene *scene);
 
 //------------------------------------------------------------------------------
 //|                                 render.c                                   |
 //------------------------------------------------------------------------------
 //void							render_rt(t_rt *rt);
-void	render_rt(t_rt *rt); // no anti-aliasing
-t_vec3							ray_color(t_ray r, t_rt *rt, int depth);
+void			render_rt(t_rt *rt, t_scene *scene);
+t_vec3			ray_color(t_ray r, t_rt *rt, int depth);
+
+typedef struct s_job
+{
+	t_rt	*rt;
+	int		y0;
+	int		y1;
+}	t_job;
+
+double			linear_to_gamma(double x);
+int				rgb_to_int(int r, int g, int b);
+double			degree_to_radian(double degree);
+void			int_to_img(t_rt *rt);
 
 //------------------------------------------------------------------------------
 //|                                  mlx.c                                     |
 //------------------------------------------------------------------------------
-void							init_mlx(t_rt *rt);
-void							my_mlx_pixel_put(t_mlx *mlx, int x, int y, \
+void			init_mlx(t_rt *rt);
+void			my_mlx_pixel_put(t_mlx *mlx, int x, int y, \
 									int color);
-int								destroy(t_mlx *mlx);
-int								destroy_in_esc(int keycode, t_mlx *mlx);
+int				destroy(t_rt *rt);
+int				destroy_in_esc(int keycode, t_rt *rt);
 
 //------------------------------------------------------------------------------
 //|                                 camera.c                                   |
 //------------------------------------------------------------------------------
-t_camera						*init_camera(double aspect_ratio, \
-									int image_width, int image_height);
-void							destroy_camera(t_camera *camera);
-t_vec3							get_pixel_center(t_camera *camera, int i, int j,
-									t_vec3 pixel00);
-t_ray							get_ray(const t_camera *cam, int i, int j,
-									int *sample_index);
-t_vec3							get_pixel00(t_camera *camera);
+t_camera		*init_camera(t_prs_camera *prs_cam, double aspect_ratio,
+					int image_width, int image_height);
+void			destroy_camera(t_camera *camera);
+t_vec3			get_pixel_center(t_camera *cam, int i, int j);
+t_ray			get_ray(const t_camera *cam, int i, int j,
+					int *sample_index);
+t_vec3			get_pixel00(t_camera *camera);
 
 //------------------------------------------------------------------------------
 //|                                hittable.c                                  |
 //------------------------------------------------------------------------------
-int								hit_world(t_ray r, t_hit_record *rec, t_rt *rt);
-void							set_face_normal(t_hit_record *rec, t_ray r, \
-									t_vec3 outward_normal);
-
-//------------------------------------------------------------------------------
-//|                                   onb.c                                    |
-//------------------------------------------------------------------------------
-
-typedef struct s_onb
-{
-	t_vec3	u;
-	t_vec3	v;
-	t_vec3	w;
-}	t_onb;
-
-
-/* Constrói ONB com w alinhado à normal n (n deve ser normalizada). */
-void	onb_build(t_onb *b, t_vec3 n);
-
-/* Converte coordenadas locais (a,b,c) para o espaço do mundo usando a ONB. */
-t_vec3	onb_local(const t_onb *b, double a, double b2, double c);
-
-
-//------------------------------------------------------------------------------
-//|                                   pdf.c                                    |
-//------------------------------------------------------------------------------
-
-typedef struct s_pdf t_pdf;
-typedef struct s_pdf
-{
-	double	(*value)(t_pdf *p, t_vec3 d);
-	t_vec3	(*generate)(t_pdf *p);
-	void	*data;
-}	t_pdf;
-
-typedef struct s_pdfc
-{
-	t_onb	basis;
-}	t_pdfc;
-
-typedef struct s_pdfm
-{
-	t_pdf	a;
-	t_pdf	b;
-}	t_pdfm;
-
-/* PDF cosseno para difusos (usará ONB alinhada à normal). */
-t_pdf	pdf_cosine_make(t_vec3 normal);
-
-/* PDF para amostrar uma ESFERA EMISSIVA vista a partir de 'origin'. */
-/* 'sphere' é um ponteiro para o seu t_sphere (void* para não vazar tipos). */
-t_pdf	pdf_light_sphere_make(void *sphere, t_vec3 origin);
-
-/* Mistura 50/50 de dois PDFs (cosine + light, p.ex.). */
-t_pdf	pdf_mix_make(t_pdf a, t_pdf b);
-
+int				hit_world(t_ray r, t_hit_record *rec, t_rt *rt);
+void			set_face_normal(t_hit_record *rec, t_ray r, \
+					t_vec3 outward_normal);
 
 //------------------------------------------------------------------------------
 //|                                 color.c                                    |
@@ -340,13 +296,8 @@ t_pdf	pdf_mix_make(t_pdf a, t_pdf b);
 
 typedef struct s_mis_data
 {
-	t_pdf	pdf_cosine;
-	t_pdf	pdf_light;
-	t_pdf	pdf_mix;
 	t_vec3	sample_d;
 	t_ray	ray_scattered;
-	double	pdf_sample_value;
-	double	pdf_bsdf_value;
 	t_vec3	radiance_child;
 	void	*chosen_light;
 }	t_mis_data;
@@ -361,97 +312,114 @@ typedef struct s_trace_data
 	t_vec3					indirect_radiance;
 }	t_trace_data;
 
+t_vec3			ambient_term(t_rt *rt, const t_hit_record *rec);
+int				rr_terminate(t_vec3 *atten);
+t_vec3			point_light_diffuse(t_rt *rt, const t_hit_record *rec, int i);
+
 //------------------------------------------------------------------------------
 //|                                 sphere.c                                   |
 //------------------------------------------------------------------------------
-t_hittable						*sphere_create(t_vec3 center, double radius, \
-									t_material *material);
-void							sphere_destroy(t_hittable *hittable);
-int								sphere_hit(void *object, t_ray r, t_interval t,
-									t_hit_record *rec);
-double							hit_sphere(t_vec3 center, double radius, \
-									t_ray r);
+t_hittable		*sphere_create(t_vec3 center, double radius, \
+					t_material *material);
+void			sphere_destroy(t_hittable *hittable);
+int				sphere_hit(void *object, t_ray r, t_interval t,
+					t_hit_record *rec);
+double			hit_sphere(t_vec3 center, double radius, \
+					t_ray r);
 
 /*
 ** Densidade do PDF (pelo sólido ângulo) de lançar uma direção 'dir'
 ** da origem 'origin' que acerta a esfera 'sp'. Retorna 0.0 se não visível.
 ** sp deve ser (t_sphere*), mas a assinatura fica genérica (void*) para pdf.h.
 */
-double	sphere_pdf_value_from(void *sp, t_vec3 origin, t_vec3 dir);
+double			sphere_pdf_value_from(void *sp, t_vec3 origin, t_vec3 dir);
 /*
 ** Gera uma direção aleatória (no MUNDO) que aponta para a esfera 'sp'
 ** vista da origem 'origin', restrita ao cone que cobre a esfera.
 */
-t_vec3	sphere_random_dir_to(void *sp, t_vec3 origin);
+t_vec3			sphere_random_dir_to(void *sp, t_vec3 origin);
 
 //------------------------------------------------------------------------------
 //|                                material.c                                  |
 //------------------------------------------------------------------------------
 
 //---------------------------------LAMBERTIAN---------------------------------//
-t_material						*lambertian_create(t_vec3 albedo);
-double	lambertian_scattering_pdf(const t_material *mat, const t_ray *r_in,
-			const t_hit_record *rec, t_vec3 *scattered);
-t_vec3	lambertian_emitted(const t_material *mat, const t_hit_record *rec, double u, double v, t_vec3 p);
-void	material_set_lambertian(t_material *mat, t_vec3 albedo);
+t_material		*lambertian_create(t_vec3 albedo);
+double			lambertian_scattering_pdf(const t_material *mat,
+					const t_ray *r_in, const t_hit_record *rec,
+					t_vec3 *scattered);
+t_vec3			lambertian_emitted(const t_material *mat,
+					const t_hit_record *rec, double *u_v, t_vec3 p);
+void			material_set_lambertian(t_material *mat, t_vec3 albedo);
 
-//------------------------------------METAL------------------------------------//
-t_material						*metal_create(t_vec3 albedo, double fuzz);
-//double	metal_scattering_pdf(const t_material *mat, const t_ray *r_in, const t_hit_record *rec, const t_ray *scattered);
-//t_vec3	metal_emitted(const t_material *mat, const t_hit_record *rec, double u, double v, t_vec3 p);
-void	material_set_metal(t_material *mat, t_vec3 albedo, double fuzz);
+//---------------------------------METAL---------------------------------//
+t_material		*metal_create(t_vec3 albedo, double fuzz);
+void			material_set_metal(t_material *mat, t_vec3 albedo, double fuzz);
 
 //---------------------------------DIELECTRIC---------------------------------//
-t_material						*dielectric_create(double refractive_index);
-//double	dielectric_scattering_pdf(const t_material *mat, const t_ray *r_in, const t_hit_record *rec, const t_ray *scattered);
-//t_vec3	dielectric_emitted(const t_material *mat, const t_hit_record *rec, double u, double v, t_vec3 p);
-void	material_set_dielectric(t_material *mat, double refractive_index);
+t_material		*dielectric_create(double refractive_index);
+void			material_set_dielectric(t_material *mat,
+					double refractive_index);
+t_vec3			reflect(t_vec3 v, t_vec3 n);
+t_vec3			refract(t_vec3 uv, t_vec3 n, double etai_over_etat);
+double			reflectance(double cosine, double ref_idx);
 
 //--------------------------------DIFFUSE LIGHT-------------------------------//
-t_material						*diffuse_light_create(t_vec3 albedo);
-//double	diffuse_light_scattering_pdf(const t_material *mat, const t_ray *r_in, const t_hit_record *rec, const t_ray *scattered);
-//t_vec3	diffuse_light_emitted(const t_material *mat, const t_hit_record *rec, double u, double v, t_vec3 p);
-//void	material_set_diffuse_light(t_material *mat, t_vec3 emit_color);
-
-void							material_destroy(t_material *m);
+t_material		*diffuse_light_create(t_vec3 albedo);
+void			material_destroy(t_material *m);
 
 //------------------------------------------------------------------------------
-//|                                 lights.c                                    |
+//|                                 lights.c                                  |
 //------------------------------------------------------------------------------
 
 t_point_light	*point_light_create(t_vec3 position, t_vec3 intensity);
 
-
-
 //------------------------------------------------------------------------------
 //|                                 utils.c                                    |
 //------------------------------------------------------------------------------
-double							degree_to_radian(double degree);
-double							random_double(void);
-double							random_double_range(double min, double max);
-int								rgb_to_int(int r, int g, int b);
-t_vec3							sample_square(void);
-
+double			degree_to_radian(double degree);
+double			random_double(void);
+double			random_double_range(double min, double max);
+int				rgb_to_int(int r, int g, int b);
+t_vec3			sample_square(void);
 
 //------------------------------------------------------------------------------
 //|                                 cylinder                                   |
 //------------------------------------------------------------------------------
 
-t_hittable	*cylinder_create(t_vec3 center, t_vec3 axis,
-	double *ra_and_he, t_material *mat);
-int	check_cap(t_cylinder *cyl, t_ray r, double t);
-int	bhaskara(double *abc, double *t0, double *t1);
-void	add_intersection(t_intersections *xs, double t);
-void	update_hit(int i, double *closest_t, int *hit_found, t_intersections xs);
+t_hittable		*cylinder_create(t_vec3 center, t_vec3 axis,
+					double *ra_and_he, t_material *mat);
+int				check_cap(t_cylinder *cyl, t_ray r, double t);
+int				bhaskara(double *abc, double *t0, double *t1);
+void			add_intersection(t_intersections *xs, double t);
+void			update_hit(int i, double *closest_t, int *hit_found,
+					t_intersections xs);
 
 //------------------------------------------------------------------------------
 //|                                 plane.c                                    |
 //------------------------------------------------------------------------------
 
-t_hittable	*plane_creat(t_vec3 point, t_vec3 norma, t_material *material);
+t_hittable		*plane_creat(t_vec3 point, t_vec3 norma,
+					t_material *material, int ischeck);
+void			add_sphere(t_prs_sphere *sph, t_rt *rt);
+void			add_plane(t_prs_plane *pl, t_rt *rt);
+void			add_cylinder(t_prs_cylinder *cyl, t_rt *rt);
+void			add_lights(t_prs_light *lt, t_rt *rt);
+void			add_checkerboard(t_hit_record *rec);
 
+//------------------------------------------------------------------------------
+//|                                 re.c                                    |
+//------------------------------------------------------------------------------
+double			linear_to_gamma(double x);
 
+void			free_index(t_rt *rt);
+void			free_create_lights(t_rt *rt);
+void			free_world(t_rt *rt);
+void			add_al(t_prs_ambient *prs_data, t_rt *rt);
 
+int				count_lights(t_prs_light *light);
+int				count_obj(t_scene *scene);
 
+t_material		*choose_material(t_obj_param *mat, int *color);
 
 #endif

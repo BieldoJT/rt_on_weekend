@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   render.c                                           :+:      :+:    :+:   */
+/*   sphere.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 17:17:55 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/07/18 18:23:28 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:53:22 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ t_hittable	*sphere_create(t_vec3 center, double radius, t_material *material)
 	ht = malloc(sizeof(*ht) + sizeof(t_sphere));
 	if (!ht)
 		return (NULL);
+	ht->type = 's';
 	ht->obj = (void *)(ht + 1);
 	((t_sphere *)ht->obj)->center = center;
 	((t_sphere *)ht->obj)->radius = radius;

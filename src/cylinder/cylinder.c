@@ -6,7 +6,7 @@
 /*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/16 16:50:38 by gda-conc          #+#    #+#             */
-/*   Updated: 2025/09/26 16:37:59 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:54:17 by natrodri         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,6 +121,7 @@ t_hittable	*cylinder_create(t_vec3 center, t_vec3 axis,
 	cylinder_data->radius = ra_and_he[0];
 	cylinder_data->height = ra_and_he[1];
 	cylinder_data->material = mat;
+	hittable_obj->type = 'c';
 	hittable_obj->obj = cylinder_data;
 	hittable_obj->hit = (int (*)(void *, t_ray, t_interval,
 				t_hit_record *))hit_cylinder;
