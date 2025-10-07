@@ -2,7 +2,7 @@ NAME = rt
 
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g
-MINILIBX_FLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm
+MINILIBX_FLAGS = -Lminilibx-linux -lmlx_Linux -lX11 -lXext -lm -lpthread -O2
 MINILIBX = make_minilibx
 
 SRC_DIR = src
@@ -10,7 +10,6 @@ MAT_DIR = src/material/
 CAM_DIR = src/camera/
 INTER_DIR = src/interval/
 LIB_DIR = lib
-
 
 LIBFT = $(LIB_DIR)/libft.a
 LIBVEC3 = $(SRC_DIR)/vec3/libvec3.a
@@ -23,7 +22,6 @@ SRCS = \
 	$(SRC_DIR)/sphere.c \
 	$(SRC_DIR)/hittable.c \
 	$(MAT_DIR)dielectric.c \
-	$(MAT_DIR)difuse_light.c \
 	$(MAT_DIR)lambertian.c \
 	$(MAT_DIR)metal.c \
 	$(CAM_DIR)camera.c \
@@ -31,7 +29,11 @@ SRCS = \
 	$(SRC_DIR)/init_variables.c \
 	$(INTER_DIR)interval.c \
 	$(INTER_DIR)interval_utils.c \
-	$(SRC_DIR)/render.c
+	$(SRC_DIR)/lights.c \
+	$(SRC_DIR)/render.c \
+	$(SRC_DIR)/cylinder/cylinder.c \
+	$(SRC_DIR)/cylinder/utils_cyld.c \
+	$(SRC_DIR)/plane.c
 
 OBJS = $(SRCS:.c=.o)
 

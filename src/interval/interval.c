@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   interval.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: natrodri <natrodri@student.42.rio>         +#+  +:+       +#+        */
+/*   By: bieldojt <bieldojt@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/18 18:00:20 by natrodri          #+#    #+#             */
-/*   Updated: 2025/07/18 18:07:10 by natrodri         ###   ########.fr       */
+/*   Updated: 2025/07/22 22:09:18 by bieldojt         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,4 +32,13 @@ void	interval_init(t_interval *i, double min, double max)
 double	interval_size(const t_interval *i)
 {
 	return (i->max - i->min);
+}
+
+void expand_interval(t_interval *interval ,double delta)
+{
+	double pading;
+
+	pading = delta / 2.0;
+	interval->min -= pading;
+	interval->max += pading;
 }
